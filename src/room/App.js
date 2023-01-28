@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TaxiRoom from './TaxiRoom';
 import TaxiRoomDetail from './TaxiRoomDetail'
 import Login from "../login/Login";
@@ -10,13 +10,14 @@ import FindPw from "../find/FindPw";
 import Info from "../info/userInfo"
 
 import Taxi from './Taxi';
+import axios from 'axios';
 
 
 
 function App() {
   const [logged, setLogged] = useState(false);
   const [id, setId] = useState("");
-//  const [userInfo, setUserInfo] = useState({});
+  //  const [userInfo, setUserInfo] = useState({});
   var userInfo = [];
 
 
@@ -46,21 +47,23 @@ function App() {
       setLogged(true);
       setId(window.localStorage.getItem("userId"))
       console.log("로그인 된 상태입니다.");
-      getInfo();
+      //getInfo();
     }
   })
 
-  
-  
+
+
   async function getInfo() {
-    // e.preventDefault();
-    const response = await fetch(`http://localhost:8080/api/user/info`)
+    //e.preventDefault();
+
+    const response = await axios
+      .get('http://localhost:8080/api/user/info')
+    console.log(response);
     if (response.status == 200) {
-      const data = await response.json()
-      console.log(data);
-      userInfo.push(data["nickName"]);
-      userInfo.push(data["university"]);
-      userInfo.push(data["userId"]);
+      console.log(response.data);
+      userInfo.push(response.data["nickName"]);
+      userInfo.push(response.data["university"]);
+      userInfo.push(response.data["userId"]);
     }
     else {
       throw new Error('err 발생')
@@ -74,7 +77,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<TaxiRoom />}/>
+      <Route path='/' element={<TaxiRoom />} />
       <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
       <Route
         path="/login"
