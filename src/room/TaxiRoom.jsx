@@ -5,10 +5,12 @@ import axios from "axios"
 import { Link, useNavigate} from "react-router-dom";
 import { clear } from '@testing-library/user-event/dist/clear';
 
-function TaxiRoom() {
+function TaxiRoom(props) {
     const navigate = useNavigate();
-    const [roomName,setRoomName]=useState("");
+    const [roomName, setRoomName] = useState("");
+    const [logged, setLogged] = useState(props.logged);
     const [list, setList] = useState([]);
+
     const [univ, setUniv] = useState(window.localStorage.getItem("university"));
     const [nick, setNick] = useState(window.localStorage.getItem("nickName"));
     let [ItemList,setItemList]=useState([{
@@ -16,6 +18,19 @@ function TaxiRoom() {
     }]);
     const no = useRef(1)
 
+
+    useEffect(() => {
+        if (window.localStorage.getItem('userId') === null) {
+            setLogged(false);
+        }
+        else {
+            setLogged(true);
+        }
+    }, [window.localStorage.getItem('userId')])
+
+    const login = () => {
+        navigate('/login');
+    }
 
     const logout = () => {
         window.localStorage.clear();
@@ -107,7 +122,7 @@ function TaxiRoom() {
             
         }
     }
-   
+
     return(
         <>
             
@@ -117,6 +132,31 @@ function TaxiRoom() {
             </div>
             <div id={styles.wrap}>
                 <div id={styles.inform}>
+<<<<<<< HEAD
+                    {logged
+                        ?
+                        <div id={styles.my}>
+                            <img id={styles.profile} src="bus.png"></img>
+                            <h5 id={styles.nick}>{nick}</h5>
+                            <h5 id={styles.college}>{univ}</h5>
+                            <button
+                                id={styles.button1}
+                                onClick={clickInfo}
+                            >내정보</button>
+                            <button
+                                id={styles.button2}
+                                onClick={logout}
+                            >로그아웃</button>
+                        </div>
+                        :
+                        <div id={styles.my}>
+                            <button
+                                id={styles.button1}
+                                onClick={login}
+                            >로그인</button>
+                        </div>
+                    }
+=======
                     <div id={styles.my}>
                         <img id={styles.profile} src="bus.png"></img>
                         <h5 id={styles.nick}>{nick}</h5>
@@ -135,6 +175,7 @@ function TaxiRoom() {
                     </div>
                     
              
+>>>>>>> develop
                 </div>
                 <div id={styles.makeRoom}>
                     <div className="input-group">
@@ -151,6 +192,9 @@ function TaxiRoom() {
                     </ul>
                 </div>
             </div>
+            <div>
+        
+      </div>
         </>
     )
 }

@@ -45,10 +45,8 @@ export default function Login() {
     try {
       
       e.preventDefault();
-      // const token = cookies.id;
       const response = await axios
         .post("http://localhost:8080/login", {
-          // token: token,
           userId: formRef.current.userId.value,
           password: formRef.current.password.value,
           // username: id,
@@ -59,7 +57,7 @@ export default function Login() {
         handleCookie(id, password)
       }
       console.log(response.data);
-      // console.log(checked);
+      //response 401: 회원 정보 잘못됨, 400: 정보 없음
       
         //로그인 성공 시
         if (response.data == 1) {
@@ -78,21 +76,6 @@ export default function Login() {
     
   }
 
-  //사용자 정보 가져오기
-  // async function getInfo() {
-  //   // e.preventDefault();
-  //   const response = await fetch('http://localhost:8080/api/user/info')
-  //   if (response.status == 200) {
-  //     const data = await response.json()
-  //     console.log(data);
-  //     window.localStorage.setItem("nickname", data["nickName"]);
-  //     window.localStorage.setItem("university", data["university"]);
-  //     navigate('/');
-  //   }
-  //   else {
-  //     throw new Error('err 발생')
-  //   }
-  // }
 
   async function getInfo() {
     await axios.get('http://localhost:8080/api/user/info')
@@ -110,13 +93,7 @@ export default function Login() {
       .catch((err) => {
         console.log('err 발생: ' + err);
     })
-    // if (response.status == 200) {
-    //   const data = await response.json()
-    //   console.log(data);
-    //   window.localStorage.setItem("nickname", data["nickName"]);
-    //   window.localStorage.setItem("university", data["university"]);
-    //   navigate('/');
-    // }
+
   }
 
   const handleCookie = (userId, password) => {

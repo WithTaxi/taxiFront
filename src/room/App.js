@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TaxiRoom from './TaxiRoom';
 import TaxiRoomDetail from './TaxiRoomDetail'
 import Login from "../login/Login";
@@ -8,34 +8,26 @@ import Find from "../find/selectFind";
 import FindId from "../find/FindId";
 import FindPw from "../find/FindPw";
 import Info from "../info/userInfo"
+import ChangeInfo from '../info/changeInfo';
+import ChangePw from '../info/changePw';
+import ConfirmPw1 from '../info/confirmPw1';
+import ConfirmPw2 from '../info/confirmPw2';
 
+
+<<<<<<< HEAD
+import Taxi from './Taxi';
+import axios from 'axios';
+=======
+>>>>>>> develop
 
 
 
 function App() {
   const [logged, setLogged] = useState(false);
   const [id, setId] = useState("");
-//  const [userInfo, setUserInfo] = useState({});
   var userInfo = [];
 
 
-  // if (logged) {
-  //   console.log("로그인 된 상태입니다.");
-  //   getInfo();
-  // }
-  // else {
-  //   console.log("로그인이 되지 않은 상태입니다.");
-  // }
-
-  // useEffect(() => {
-  //   console.log(logged);
-  // }, [logged])
-
-  // useEffect(() => {
-  //   setLogged(true);
-  //   setId(window.localStorage.getItem("username"))
-  //   console.log("!");
-  // }, [window.localStorage.getItem("username")])
 
   useEffect(() => {
     if (window.localStorage.getItem("userId") === null) {
@@ -45,26 +37,9 @@ function App() {
       setLogged(true);
       setId(window.localStorage.getItem("userId"))
       console.log("로그인 된 상태입니다.");
-      getInfo();
     }
   })
 
-  
-  
-  async function getInfo() {
-    // e.preventDefault();
-    const response = await fetch(`http://localhost:8080/api/user/info`)
-    if (response.status == 200) {
-      const data = await response.json()
-      console.log(data);
-      userInfo.push(data["nickName"]);
-      userInfo.push(data["university"]);
-      userInfo.push(data["userId"]);
-    }
-    else {
-      throw new Error('err 발생')
-    }
-  }
 
   const parentFunction = (nick, univ, id) => {
     userInfo.push(nick, univ, id)
@@ -73,7 +48,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<TaxiRoom />}/>
+      <Route 
+        path='/' 
+        element={<TaxiRoom logged={logged}/>} 
+      />
       <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
       <Route
         path="/login"
@@ -83,7 +61,13 @@ function App() {
       <Route path='/find' element={<Find />}></Route>
       <Route path='/findId' element={<FindId />}></Route>
       <Route path='/findPw' element={<FindPw />}></Route>
+
       <Route path='/info' element={<Info />}></Route>
+      <Route path='/chnInfo' element={<ChangeInfo />}></Route>
+      <Route path='/chnPw' element={<ChangePw />}></Route>
+      
+      <Route path='/confirmPw1' element={<ConfirmPw1 />}></Route>
+      <Route path='/confirmPw2' element={<ConfirmPw2 />}></Route>
     </Routes>
   )
 }
