@@ -22,7 +22,6 @@ import axios from 'axios';
 function App() {
   const [logged, setLogged] = useState(false);
   const [id, setId] = useState("");
-  //  const [userInfo, setUserInfo] = useState({});
   var userInfo = [];
 
 
