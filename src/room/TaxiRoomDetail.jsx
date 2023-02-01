@@ -114,7 +114,7 @@ function TaxiRoomDetail(props){
                     </div>
                     <input type="text" className="form-control" value={message} onChange={onChange} onKeyDown={onKeyPress} ref={focusRef}/>
                     <div className="input-group-append">
-                        <button className="btn btn-primary" type="button" onClick={sendMessage} >보내기</button>
+                        <button className="btn btn-primary" type="button" onClick={sendMessage}>보내기</button>
                     </div>
                 </div>
                 <ul id={styles.input} className="list-group">
