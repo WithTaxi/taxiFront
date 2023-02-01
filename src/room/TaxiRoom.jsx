@@ -5,12 +5,10 @@ import axios from "axios"
 import { Link, useNavigate} from "react-router-dom";
 import { clear } from '@testing-library/user-event/dist/clear';
 
-function TaxiRoom(props) {
+function TaxiRoom() {
     const navigate = useNavigate();
-    const [roomName, setRoomName] = useState("");
-    const [logged, setLogged] = useState(props.logged);
+    const [roomName,setRoomName]=useState("");
     const [list, setList] = useState([]);
-
     const [univ, setUniv] = useState(window.localStorage.getItem("university"));
     const [nick, setNick] = useState(window.localStorage.getItem("nickName"));
     let [ItemList,setItemList]=useState([{
@@ -18,19 +16,6 @@ function TaxiRoom(props) {
     }]);
     const no = useRef(1)
 
-
-    useEffect(() => {
-        if (window.localStorage.getItem('userId') === null) {
-            setLogged(false);
-        }
-        else {
-            setLogged(true);
-        }
-    }, [window.localStorage.getItem('userId')])
-
-    const login = () => {
-        navigate('/login');
-    }
 
     const logout = () => {
         window.localStorage.clear();
@@ -76,15 +61,16 @@ function TaxiRoom(props) {
         axios.get('http://localhost:8080/chat/rooms')
         .then((response) => { 
             setList(response.data); 
+            console.log(response.data)
         })
         .catch(
             (response)=>{
                 console.log("실패")
             }
         )
-        
-
     }
+
+
     const createRoom=(e)=>{
         if(roomName===""){
             alert("방 제목을 입력해주세요")
@@ -107,22 +93,14 @@ function TaxiRoom(props) {
         }
     }
 
-    
-
 
     const enterRoom=(e)=>{
-        console.log(e)
-        var sender = prompt('대화명을 입력해 주세요.');
-        if(sender !== "") {
-            localStorage.setItem('sender',sender);
-            localStorage.setItem('roomId',e.roomId);
-            document.location.href="/TaxiRoomDetail/"+e.roomName
-        }
-        else{
-            
-        }
+        localStorage.setItem('roomId',e.roomId);
+        localStorage.setItem('sender',nick);
+        document.location.href="/TaxiRoomDetail/"+e.roomName
     }
 
+   
     return(
         <>
             
@@ -132,31 +110,6 @@ function TaxiRoom(props) {
             </div>
             <div id={styles.wrap}>
                 <div id={styles.inform}>
-<<<<<<< HEAD
-                    {logged
-                        ?
-                        <div id={styles.my}>
-                            <img id={styles.profile} src="bus.png"></img>
-                            <h5 id={styles.nick}>{nick}</h5>
-                            <h5 id={styles.college}>{univ}</h5>
-                            <button
-                                id={styles.button1}
-                                onClick={clickInfo}
-                            >내정보</button>
-                            <button
-                                id={styles.button2}
-                                onClick={logout}
-                            >로그아웃</button>
-                        </div>
-                        :
-                        <div id={styles.my}>
-                            <button
-                                id={styles.button1}
-                                onClick={login}
-                            >로그인</button>
-                        </div>
-                    }
-=======
                     <div id={styles.my}>
                         <img id={styles.profile} src="bus.png"></img>
                         <h5 id={styles.nick}>{nick}</h5>
@@ -175,7 +128,6 @@ function TaxiRoom(props) {
                     </div>
                     
              
->>>>>>> develop
                 </div>
                 <div id={styles.makeRoom}>
                     <div className="input-group">
@@ -192,9 +144,6 @@ function TaxiRoom(props) {
                     </ul>
                 </div>
             </div>
-            <div>
-        
-      </div>
         </>
     )
 }

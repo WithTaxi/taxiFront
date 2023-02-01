@@ -15,6 +15,10 @@ function TaxiRoomDetail(props){
     let [messageList,setMessageList]=useState([{
         
     }]);
+    const[user,setUser]=useState([{
+
+    }]);
+
     const no = useRef(1)
     const focusRef = useRef();
 
@@ -58,6 +62,19 @@ function TaxiRoomDetail(props){
                
         )
     }
+
+    const userList=()=>{
+        setUser((prev)=>{
+            return[
+                {
+                    id:no.current++,
+                    sender:sender
+                },
+                ...prev
+            ]
+        })
+    }
+   
     
  
     let navigate = useNavigate();
@@ -67,6 +84,7 @@ function TaxiRoomDetail(props){
 
    
     useEffect(()=>{
+        userList()
         created()
         get()
         focusRef.current.focus();
@@ -88,27 +106,25 @@ function TaxiRoomDetail(props){
 
     
     return(
-        <div className="container">
-            <div className="row">
-                <div className="col-md-6">
-                    <h4><span className="badge badge-info badge-pill"></span></h4>
+        <>
+            <div className="container">
+                <div id={styles.input} className="input-group">
+                    <div className="input-group-prepend">
+                        <label className="input-group-text">내용</label>
+                    </div>
+                    <input type="text" className="form-control" value={message} onChange={onChange} onKeyDown={onKeyPress} ref={focusRef}/>
+                    <div className="input-group-append">
+                        <button className="btn btn-primary" type="button" onClick={sendMessage}>보내기</button>
+                    </div>
                 </div>
-                
+                <ul id={styles.input} className="list-group">
+                    {messageList.map((item,idx)=>{return item.id!=null?(item.message===null?<li className="list-group-item" key={item.key}>{item.sender}</li>:<li className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}
+                </ul>
+                <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
             </div>
-            <div className="input-group">
-                <div className="input-group-prepend">
-                    <label className="input-group-text">내용</label>
-                </div>
-                <input type="text" className="form-control" value={message} onChange={onChange} onKeyDown={onKeyPress} ref={focusRef}/>
-                <div className="input-group-append">
-                    <button className="btn btn-primary" type="button" onClick={sendMessage} >보내기</button>
-                </div>
-            </div>
-            <ul className="list-group">
-                {messageList.map((item,idx)=>{return item.id!=null?(item.message===null?<li className="list-group-item" key={item.key}>{item.sender}</li>:<li className="list-group-item" key={item.key}>{item.sender}-{item.inMessage}</li>):null})}
-            </ul>
-            <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
-        </div>
+           
+        </>
+        
     )
 }
 
