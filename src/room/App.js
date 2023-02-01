@@ -8,6 +8,11 @@ import Find from "../find/selectFind";
 import FindId from "../find/FindId";
 import FindPw from "../find/FindPw";
 import Info from "../info/userInfo"
+import ChangeInfo from '../info/changeInfo';
+import ChangePw from '../info/changePw';
+import ConfirmPw1 from '../info/confirmPw1';
+import ConfirmPw2 from '../info/confirmPw2';
+
 
 import Taxi from './Taxi';
 import axios from 'axios';
@@ -21,23 +26,6 @@ function App() {
   var userInfo = [];
 
 
-  // if (logged) {
-  //   console.log("로그인 된 상태입니다.");
-  //   getInfo();
-  // }
-  // else {
-  //   console.log("로그인이 되지 않은 상태입니다.");
-  // }
-
-  // useEffect(() => {
-  //   console.log(logged);
-  // }, [logged])
-
-  // useEffect(() => {
-  //   setLogged(true);
-  //   setId(window.localStorage.getItem("username"))
-  //   console.log("!");
-  // }, [window.localStorage.getItem("username")])
 
   useEffect(() => {
     if (window.localStorage.getItem("userId") === null) {
@@ -47,28 +35,9 @@ function App() {
       setLogged(true);
       setId(window.localStorage.getItem("userId"))
       console.log("로그인 된 상태입니다.");
-      //getInfo();
     }
   })
 
-
-
-  async function getInfo() {
-    //e.preventDefault();
-
-    const response = await axios
-      .get('http://localhost:8080/api/user/info')
-    console.log(response);
-    if (response.status == 200) {
-      console.log(response.data);
-      userInfo.push(response.data["nickName"]);
-      userInfo.push(response.data["university"]);
-      userInfo.push(response.data["userId"]);
-    }
-    else {
-      throw new Error('err 발생')
-    }
-  }
 
   const parentFunction = (nick, univ, id) => {
     userInfo.push(nick, univ, id)
@@ -77,7 +46,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<TaxiRoom />} />
+      <Route 
+        path='/' 
+        element={<TaxiRoom logged={logged}/>} 
+      />
       <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
       <Route
         path="/login"
@@ -87,7 +59,13 @@ function App() {
       <Route path='/find' element={<Find />}></Route>
       <Route path='/findId' element={<FindId />}></Route>
       <Route path='/findPw' element={<FindPw />}></Route>
+
       <Route path='/info' element={<Info />}></Route>
+      <Route path='/chnInfo' element={<ChangeInfo />}></Route>
+      <Route path='/chnPw' element={<ChangePw />}></Route>
+      
+      <Route path='/confirmPw1' element={<ConfirmPw1 />}></Route>
+      <Route path='/confirmPw2' element={<ConfirmPw2 />}></Route>
     </Routes>
   )
 }

@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/headerForm';
 import axios from 'axios';
 import styles from './find.module.css';
+import { useNavigate } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
 export default function FindPw() {
 
+  const navigate = useNavigate();
+  const [disable, setDisable] = useState(false);
   const [id, setId] = useState('');
+
 
   var params = new URLSearchParams();
   params.append('userId', id);
@@ -18,13 +22,22 @@ export default function FindPw() {
       withCredentials: true,
     }
     ).then(function (response) {
-        alert("임시 비밀번호를 발급하였습니다. 메일함을 확인해주세요.");
-        console.log(response);
-      }).catch(function (error) {
-        alert("error는 " + error);
-        console.log(error.response);
-      });
+      // setDisable(true);
+      alert("임시 비밀번호를 발급하였습니다. 메일함을 확인해주세요.");
+      console.log(response);
+      
+      navigate('/login');
+    }).catch(function (error) {
+      alert("error는 " + error);
+      console.log(error.response);
+    });
 
+  }
+
+  function btnClick(e) {
+    e.preventDefault();
+    setDisable(true);
+    postInfo(e);
   }
 
   return (
@@ -48,13 +61,12 @@ export default function FindPw() {
               onChange={(e) => setId(e.target.value)}
             />
 
-            
-            {/* <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> */}
             <button
               className={styles.btn}
               type="submit"
               formMethod="get"
-              // onClick={postInfo}
+              onClick={btnClick}
+              disabled={ disable }
             >비밀번호 찾기</button>
           </form>
         </div>
