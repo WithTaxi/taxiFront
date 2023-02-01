@@ -132,7 +132,7 @@ function TaxiRoom(props) {
             </div>
             <div id={styles.wrap}>
                 <div id={styles.inform}>
-<<<<<<< HEAD
+
                     {logged
                         ?
                         <div id={styles.my}>
@@ -156,26 +156,6 @@ function TaxiRoom(props) {
                             >로그인</button>
                         </div>
                     }
-=======
-                    <div id={styles.my}>
-                        <img id={styles.profile} src="bus.png"></img>
-                        <h5 id={styles.nick}>{nick}</h5>
-                        <h5 id={styles.college}>{univ}</h5>
-                        <button
-                            id={styles.button1}
-                            onClick={clickInfo}
-                        >내정보</button>
-                        <button
-                            id={styles.button2}
-                            onClick={logout}
-                        >로그아웃</button>
-                    </div>
-                    <div id={styles.my2}>
-                        <iframe id={styles.advertisement} src="https://forecast.io/embed/#lat=37.5266&lon=127.0403&name=서울&color=&font=&units=si"></iframe>
-                    </div>
-                    
-             
->>>>>>> develop
                 </div>
                 <div id={styles.makeRoom}>
                     <div className="input-group">
