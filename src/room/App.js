@@ -14,8 +14,11 @@ import ConfirmPw1 from '../info/confirmPw1';
 import ConfirmPw2 from '../info/confirmPw2';
 
 
+<<<<<<< HEAD
 import Taxi from './Taxi';
 import axios from 'axios';
+=======
+>>>>>>> develop
 
 
 
