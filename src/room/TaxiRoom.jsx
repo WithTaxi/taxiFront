@@ -2,17 +2,31 @@ import React,{useState,useRef,useEffect} from "react";
 import styles from './TaxiRoom.module.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios"
-import {Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { clear } from '@testing-library/user-event/dist/clear';
 
-
-
-function TaxiRoom(){
+function TaxiRoom() {
+    const navigate = useNavigate();
     const [roomName,setRoomName]=useState("");
-    const [list,setList]=useState([]);
+    const [list, setList] = useState([]);
+    const [univ, setUniv] = useState(window.localStorage.getItem("university"));
+    const [nick, setNick] = useState(window.localStorage.getItem("nickName"));
     let [ItemList,setItemList]=useState([{
         id:0
     }]);
     const no = useRef(1)
+
+
+    const logout = () => {
+        window.localStorage.clear();
+        setUniv("");
+        setNick("");
+        navigate('/login')
+    }
+
+    const clickInfo = (e) => {
+        navigate('/info')
+    }
 
     const AddList=()=>{
         if(roomName===""){
@@ -44,10 +58,9 @@ function TaxiRoom(){
     },[])
       
     const findAllroom=()=>{
-        axios.get('/chat/rooms')
+        axios.get('http://localhost:8080/chat/rooms')
         .then((response) => { 
             setList(response.data); 
-            console.log(list)
         })
         .catch(
             (response)=>{
@@ -79,33 +92,49 @@ function TaxiRoom(){
         }
     }
 
-    const a=()=>{
-        console.log(ItemList)
-    }
+    
 
 
     const enterRoom=(e)=>{
+        console.log(e)
         var sender = prompt('대화명을 입력해 주세요.');
         if(sender !== "") {
             localStorage.setItem('sender',sender);
-            localStorage.setItem('roomId',ItemList);
+            localStorage.setItem('roomId',e.roomId);
+            document.location.href="/TaxiRoomDetail/"+e.roomName
         }
-        console.log(e.key)
+        else{
+            
+        }
     }
+   
     return(
         <>
-            <div id={styles.title}>
-                <img id={styles.taxiImage} src="taxi-image.png"></img>
+            
+            <div id={styles.ti}>
+                <img id={styles.taxiImage} src="Taxi.jpg"></img>
                 <h2>택시합승</h2>
             </div>
-            <div id={styles.wrapper}>
+            <div id={styles.wrap}>
                 <div id={styles.inform}>
                     <div id={styles.my}>
                         <img id={styles.profile} src="bus.png"></img>
-                        <h5 id={styles.nick}>굿보이</h5>
-                        <h5 id={styles.college}>가천대</h5>
-                        <button id={styles.button1}>내정보</button><button id={styles.button2}>로그아웃</button>
+                        <h5 id={styles.nick}>{nick}</h5>
+                        <h5 id={styles.college}>{univ}</h5>
+                        <button
+                            id={styles.button1}
+                            onClick={clickInfo}
+                        >내정보</button>
+                        <button
+                            id={styles.button2}
+                            onClick={logout}
+                        >로그아웃</button>
                     </div>
+                    <div id={styles.my2}>
+                        <iframe id={styles.advertisement} src="https://forecast.io/embed/#lat=37.5266&lon=127.0403&name=서울&color=&font=&units=si"></iframe>
+                    </div>
+                    
+             
                 </div>
                 <div id={styles.makeRoom}>
                     <div className="input-group">
@@ -118,7 +147,7 @@ function TaxiRoom(){
                         </div>
                     </div>
                     <ul className="list-group">
-                        {list.map((item,idx)=>{return item.id==0?null:<Link to={"/TaxiRoomDetail/"+item.roomName}><li onClick={()=>{enterRoom()}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li></Link>})} 
+                        {list.map((item,idx)=>{return item.id==0?null:<li onClick={()=>{enterRoom(item)}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li>})} 
                     </ul>
                 </div>
             </div>

@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/headerForm';
 import axios from 'axios';
 import styles from './join.module.css';
+import 'url-search-params-polyfill';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
 export default function Join() {
 
+  const navigate = useNavigate();
   const [style, setStyle] = useState({ display: 'none' })
+  const [EmailStyle, setEmailStyle] = useState({ display: 'none' });
 
   //유효성 검사
   const [idOK, setIdOK] = useState(true)
@@ -33,7 +36,7 @@ export default function Join() {
   const [Nickname, setNickname] = useState('');
   const [Mobile, setMobile] = useState('');
   const [Birth, setBirth] = useState('');
-  const [Email, setEmail] = useState('');
+  var [Email, setEmail] = useState('');
   const [Univ, setUniv] = useState('');
 
   const [UnivNum, setUnivNum] = useState('1');
@@ -51,11 +54,12 @@ export default function Join() {
   const [EmailMsg, setEmailMsg] = useState('')
   const [UnivMsg, setUnivMsg] = useState('')
 
+  const [EmailCode, setEmailCode] = useState('');
+  const [EmailAnswer, setEmailAnswer] = useState('');
 
-  function emailChange(e) {
-    setUnivNum(e.target.value);
-    console.log(e.target.value);
-  }
+
+  const inputRef = useRef(null);
+
 
   useEffect(() => {
     if (PW !== undefined &&
@@ -207,18 +211,6 @@ export default function Join() {
     }
   }, [Univ]);
 
-  // var sendData = JSON.stringify({
-  //   "ID": ID,
-  //   "PW": PW,
-  //   "Chk_PW": Chk_PW,
-  //   "Name": Name,
-  //   "Nickname": Nickname,
-  //   "Sex": Sex,
-  //   "Mobile": Mobile,
-  //   "Birth": Birth,
-  //   "Email": Email,
-  //   "Univ": Univ,
-  // })
 
   //회원가입 버튼 누른 후 정보 보냄
   async function postInfo(e) {
@@ -231,7 +223,7 @@ export default function Join() {
       // }
       e.preventDefault();
       const response = await axios
-        .post("http://localhost:8080/users", {
+        .post("http://localhost:8080/api/user/join", {
           userId: ID,
           password: PW,
           name: Name,
@@ -239,14 +231,14 @@ export default function Join() {
           sex: Sex,
           mobile: Mobile,
           birthday: Birth,
-          email: Email,
+          email: Email + inputRef.current[UnivNum - 1].innerText,
           university: Univ,
           provider: null,
           providerId: null,
         }, {"Content-Type": 'application/json'});
       alert("회원가입 성공!");
-      console.log(response.data);
-      // history.replace("/login");
+      console.log(response);
+      navigate('/login');
         
     } catch (error) {
       console.log(error);
@@ -254,30 +246,103 @@ export default function Join() {
     alert("끝");
   }
     
+  //이메일 인증 코드 일치 확인
+  function EmailAuth(e) {
+    e.preventDefault();
+
+    if (JSON.stringify(EmailCode) === EmailAnswer) {
+      alert("인증 완료되었습니다.");
+    }
+    else {
+      alert("인증 번호가 다릅니다.");
+      setEmailCode("");
+    }
+
+  }
+
+  //이메일 인증 코드 보내기
+  var params = new URLSearchParams();
+  
+  function EmailBox(e) {
+    if (Email === "") {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
+    setEmailStyle({ style: "display" });
+
+    Email += inputRef.current[UnivNum - 1].innerText
+    console.log(Email);
+    params.append('email', Email);
+    
+    e.preventDefault();
+    axios.post('http://localhost:8080/api/email/mailConfirm', params, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        setEmailAnswer(JSON.stringify(response.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   var sendNick = JSON.stringify({
     "Nickname": Nickname,
   })
 
-  function nickSearch() {
+  //닉네임 중복 확인
+  function nickSearch(e) {
+    e.preventDefault();
     axios
-      .post('/user', {
-        data: sendNick,
-        headers: {'Content-type': 'application/json'}
-      })
+      .get(`http://localhost:8080/api/user/join/user-id/${Nickname}/dup`)
       .then(response => {
-        alert(response.data);
+        if (response.data) {
+          alert("사용할 수 없는 닉네임입니다. 다시 입력해주세요.");
+          setNickname('');
+        }
+        else {
+          alert("사용할 수 있는 닉네임입니다.")
+        }
 
       })
-      .catch(function () {
-        alert("실패");
+      .catch(function (err) {
+        alert('error 발생')
+        console.log(err);
       })
-    console.log('아이디 중복 확인을 완료했습니다.');
+    // console.log('닉네임 중복 확인을 완료했습니다.');
+  }
+
+  //아이디 중복 확인
+  function IDSearch(e) {
+    e.preventDefault();
+    axios
+      .get(`http://localhost:8080/api/user/join/user-id/${ID}/dup`)
+      .then(response => {
+        if (response.data) {
+          alert("사용할 수 없는 아이디입니다. 다시 입력해주세요.");
+          setID('');
+        }
+        else {
+          alert("사용할 수 있는 아이디입니다.")
+        }
+      })
+      .catch(function (err) {
+        alert('error 발생')
+        console.log(err);
+      })
+    // console.log('아이디 중복 확인을 완료했습니다.');
   }
 
   
   function univSelect(e) {
     setUnivNum(e.target.id);
     setUniv(e.target.innerText);
+  }
+
+  function emailChange(e) {
+    setUnivNum(e.target.value);
+    // setEmail(Email + inputRef.current[UnivNum - 1].innerText);
+    // console.log(Email);
   }
 
   return (
@@ -290,16 +355,22 @@ export default function Join() {
 
           
           <div className={styles.form_content}>
+            아이디 <br />
             <div className={styles.id}>
-              아이디 <br />
+              
               <input
                 type="text"
                 className={styles.input}
                 name="id"
                 placeholder="UserId"
-                defaultValue={ID || ""}
+                value={ID}
                 onChange={(e) => setID(e.target.value)}
-              /><br />
+              />
+              <a
+                className={styles.ID_search}
+                onClick={IDSearch}
+              >아이디 중복 확인</a>
+              <br />
             </div>
             <div
               className={styles.empty_err}
@@ -315,7 +386,7 @@ export default function Join() {
                 className={styles.input}
                 name="password"
                 placeholder="Password"
-                defaultValue={PW || ""}
+                value={PW}
                 onChange={(e) => setPW(e.target.value)}
               /><br />
             </div>
@@ -333,7 +404,7 @@ export default function Join() {
                 className={styles.input}
                 name="password"
                 placeholder="Password"
-                defaultValue={Chk_PW || ""}
+                value={Chk_PW}
                 onChange={(e) => setChk_PW(e.target.value)}
               /><br />
             </div>
@@ -351,7 +422,7 @@ export default function Join() {
                 className={styles.input}
                 name="name"
                 placeholder="Username"
-                defaultValue={Name || ""}
+                value={Name}
                 onChange={(e) => setName(e.target.value)}
               /><br />
             </div>
@@ -369,7 +440,7 @@ export default function Join() {
                   type="radio"
                   id='male'
                   name="sex"
-                  defaultValue="male"
+                  value="male"
                   onChange={(e) => setSex('male')}
                 />
                 <label className={styles.label} htmlFor="male">남자</label><br />
@@ -380,7 +451,7 @@ export default function Join() {
                   type="radio"
                   id='female'
                   name="sex"
-                  defaultValue="female"
+                  value="female"
                   onChange={(e) => setSex('female')}
                 />
                 <label className={styles.label} htmlFor="female">여자</label><br />
@@ -402,7 +473,7 @@ export default function Join() {
                 className={styles.input}
                 name="nickName"
                 placeholder="UserNickName"
-                defaultValue={Nickname || ""}
+                value={Nickname}
                 onChange={(e) => setNickname(e.target.value)}
               />
               <a
@@ -427,7 +498,7 @@ export default function Join() {
                 className={styles.input}
                 name="mobile"
                 placeholder="Phone-Number"
-                defaultValue={Mobile || ""}
+                value={Mobile}
                 onChange={(e) => setMobile(e.target.value)}
               /><br />
             </div>
@@ -444,7 +515,7 @@ export default function Join() {
                 type="date"
                 className={styles.input}
                 name="birthday"
-                defaultValue={Birth || ""}
+                value={Birth}
                 onChange={(e) => setBirth(e.target.value)}
               /><br />
             </div>
@@ -462,25 +533,43 @@ export default function Join() {
                 className={styles.input}
                 name="email"
                 placeholder="Email"
-                defaultValue={Email || ""}
+                value={Email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <select
                 className={styles.emailSelect}
                 defaultValue={UnivNum}
                 onChange={emailChange}
+                ref={inputRef}
               >
                 <option className="emailOp" value="1" onClick={(e) => setUnivNum(e.target.value)}>@dankook.ac.kr</option>
                 <option className="emailOp" value="2" onClick={(e) => setUnivNum(e.target.value)}>@catholic.ac.kr</option>
-                <option className="emailOp" value="3" onClick={(e) => setUnivNum(e.target.value)}>@kacheon.ac.kr</option>
+                <option className="emailOp" value="3" onClick={(e) => setUnivNum(e.target.value)}>@gachon.ac.kr</option>
                 <option className="emailOp" value="4" onClick={(e) => setUnivNum(e.target.value)}>@snu.ac.kr</option>
               </select>
+
+              <a
+                className={styles.nickname_search}
+                onClick={EmailBox}
+              >이메일 인증</a>
               <br />
             </div>
             <div
               className={styles.empty_err}
               style={{visibility: EmailOK ? 'visible' : 'hidden'}}
             >필수 정보입니다.</div>
+          </div>
+
+          <div style={EmailStyle}>
+            <input
+              value={EmailCode}
+              className={styles.emailAuth_input}
+              onChange={(e) => setEmailCode(e.target.value)}
+            />
+            <button
+              className={styles.email_auth}
+              onClick={EmailAuth}
+            >인증</button>
           </div>
 
           <div className={styles.form_content}>
@@ -493,7 +582,8 @@ export default function Join() {
                   id="univ_out"
                   name="university"
                   placeholder="Ex) 단국대학교"
-                  defaultValue={Univ || ""}
+                  value={Univ}
+                  onChange={(e) => setUniv(e.target.value)}
                 /><br />
                 <a
                   className={styles.univ_search}
@@ -510,14 +600,7 @@ export default function Join() {
 
           <div id="pop_info" className={styles.pop_wrap} style={style}>
             <div className={styles.pop_inner}>
-              {/* <input
-                type="text"
-                className={styles.univ_input}
-                id="univ_input"
-                name="univ_find"
-                placeholder="찾으시는 대학교를 입력해주세요."
-                
-              /> */}
+              
               <ul className={styles.list_wrapper}>
                 <li className={styles.univ_list}><a className={styles.univ_content} id="1" onClick={univSelect}>단국대학교</a></li>
                 <li className={styles.univ_list}><a className={styles.univ_content} id="2" onClick={univSelect}>가톨릭대학교</a></li>

@@ -30,6 +30,22 @@ input[type="email"]*/
   font-weight: 100;
 }
 
+.ID_search{
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  margin-top: 5px;
+  border: none;
+  background-color: black;
+  color: white;
+  width: 110px;
+  margin-left: 25px;
+  font-size: 12px;
+  padding: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .nickname_search {
   height: 30px;
   text-align: center;
@@ -76,6 +92,18 @@ input[type="email"]*/
   text-align: center;
 }
 
+.emailAuth_input{
+  width: 300px;
+}
+
+.email_auth{
+  width: 70px;
+  margin-left: 25px;
+  background-color: black;
+  color: white;
+}
+
+.id,
 .univ,
 .nickName,
 .email {

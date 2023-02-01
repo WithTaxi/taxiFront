@@ -1,0 +1,13 @@
+.main_wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.colgroup{
+  display: table-column-group;
+}
+
+.tr{
+  display: table-row;
+  vertical-align: inherit;
+}
