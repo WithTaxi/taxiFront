@@ -53,6 +53,7 @@ export default function Login() {
           // password: password,
         }, { "Content-Type": 'application/json' });
       // console.log(getCookie('cookie'));
+      
       if (checked) {
         handleCookie(id, password)
       }
@@ -67,7 +68,13 @@ export default function Login() {
           setLogged(true);
           console.log(logged);
           getInfo();
-        }    
+      }    
+        else if (response.data == 0) {
+          alert(`로그인 실패!
+정보를 다시 확인해주세요.`);
+          setId('');
+          setPassword('');
+      }
       
       
     } catch (error) {
