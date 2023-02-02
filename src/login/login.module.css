@@ -129,7 +129,9 @@ margin-bottom: 40px;
 }
 
 .idpw_find {
-  margin-left: 80px;
+  margin-left: 75px;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 span>a {

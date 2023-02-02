@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import TaxiRoom from './TaxiRoom';
 import TaxiRoomDetail from './TaxiRoomDetail'
 import Login from "../login/Login";
@@ -14,19 +14,16 @@ import ConfirmPw1 from '../info/confirmPw1';
 import ConfirmPw2 from '../info/confirmPw2';
 
 
-<<<<<<< HEAD
-import Taxi from './Taxi';
-import axios from 'axios';
-=======
->>>>>>> develop
+// import Taxi from './Taxi';
+// import axios from 'axios';
 
 
 
 function App() {
-  const [logged, setLogged] = useState(false);
+  const navigate = useNavigate();
+  // const [logged, setLogged] = useState(false);
   const [id, setId] = useState("");
   var userInfo = [];
-
 
 
   useEffect(() => {
@@ -38,7 +35,7 @@ function App() {
       setId(window.localStorage.getItem("userId"))
       console.log("로그인 된 상태입니다.");
     }
-  })
+  }, [window.localStorage.getItem('userId')])
 
 
   const parentFunction = (nick, univ, id) => {
@@ -50,7 +47,7 @@ function App() {
     <Routes>
       <Route 
         path='/' 
-        element={<TaxiRoom logged={logged}/>} 
+        element={<TaxiRoom/>} 
       />
       <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
       <Route

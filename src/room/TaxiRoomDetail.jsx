@@ -6,6 +6,8 @@ import SockJS from 'sockjs-client'
 import Stomp from "stompjs";
 import styles from './TaxiRoomDetail.module.css'
 
+import IsLogin from '../utils/isLogin';
+
 
 function TaxiRoomDetail(props){
     const[message,setMessage]=useState('')
@@ -104,6 +106,11 @@ function TaxiRoomDetail(props){
         }
     }
 
+    useEffect(() => {
+        if (!IsLogin()) {
+            navigate('/login');
+        }
+    }, [IsLogin()]);
     
     return(
         <>

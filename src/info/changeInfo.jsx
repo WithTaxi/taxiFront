@@ -4,27 +4,25 @@ import Header from '../components/headerForm';
 import modules from './userInfo.module.css';
 
 import styles from './changeInfo.module.css';
+import IsLogin from '../utils/isLogin';
 
 
 axios.defaults.withCredentials = true;
 
 export default function ChangeInfo() {
-  const [id, setId] = useState(window.localStorage.getItem('userId'));
-  const [pw, setPw] = useState(window.localStorage.getItem('password'));
-  const [name, setName] = useState(window.localStorage.getItem('name'));
-  const [sex, setSex] = useState(window.localStorage.getItem('sex'));
-  const [nickname, setNickname] = useState(window.localStorage.getItem('nickName'));
-  const [mobile, setMobile] = useState(window.localStorage.getItem('mobile'));
-  const [birth, setBirth] = useState(window.localStorage.getItem('birthday'));
-  const [univ, setUniv] = useState(window.localStorage.getItem('university'));
+  const [id, setId] = useState(window.localStorage.getItem('userId') || '');
+  const [pw, setPw] = useState(window.localStorage.getItem('password') || '');
+  const [name, setName] = useState(window.localStorage.getItem('name') || '');
+  const [sex, setSex] = useState(window.localStorage.getItem('sex') || '');
+  const [nickname, setNickname] = useState(window.localStorage.getItem('nickName') || '');
+  const [mobile, setMobile] = useState(window.localStorage.getItem('mobile') || '');
+  const [birth, setBirth] = useState(window.localStorage.getItem('birthday') || '');
+  const [univ, setUniv] = useState(window.localStorage.getItem('university') || '');
 
 
-  var idx = window.localStorage.getItem('email').indexOf('@');
-  var emailTmp = window.localStorage.getItem('email').substring(0, idx);
-  var emailDomainTmp = window.localStorage.getItem('email').substring(idx);
 
-  const [email, setEmail] = useState(emailTmp);
-  const [emailDomain, setEmailDomain] = useState(emailDomainTmp);
+  const [email, setEmail] = useState('');
+  const [emailDomain, setEmailDomain] = useState('');
 
   const [emailCode, setEmailCode] = useState('');
   const [answerCode, setAnswerCode] = useState('');
@@ -35,6 +33,22 @@ export default function ChangeInfo() {
   const [styleCode, setStyleCode] = useState({ display: 'none' });
 
 
+  var emailTmp = '';
+  var emailDomainTmp = '';
+
+  if (IsLogin()) {
+    var idx = window.localStorage.getItem('email').indexOf('@');
+    emailTmp = window.localStorage.getItem('email').substring(0, idx);
+    emailDomainTmp = window.localStorage.getItem('email').substring(idx);
+  }
+
+  useEffect(() => {
+    setEmail(emailTmp);
+  }, [emailTmp]);
+
+  useEffect(() => {
+    setEmailDomain(emailDomainTmp)
+  }, [emailDomainTmp]);
 
   //닉네임 마스킹 처리
   useEffect(() => {
@@ -62,10 +76,15 @@ export default function ChangeInfo() {
   
   //전화번호 마스킹 처리
   useEffect(() => {
-    var tmp1 = mobile.substring(0, 6);
-    var tmp2 = mobile.substring(8, 11);
-    tmp1 += '**' + tmp2 + '**';
-    setMobile(tmp1);
+    if (mobile === '') {
+      setMobile('');
+    }
+    else {
+      var tmp1 = mobile.substring(0, 6);
+      var tmp2 = mobile.substring(8, 11);
+      tmp1 += '**' + tmp2 + '**';
+      setMobile(tmp1);
+    }
   }, [mobile]);
 
   async function modifyInfo(e) {
