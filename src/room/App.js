@@ -31,7 +31,6 @@ function App() {
       console.log("로그인이 되지 않은 상태입니다.");
     }
     else {
-      setLogged(true);
       setId(window.localStorage.getItem("userId"))
       console.log("로그인 된 상태입니다.");
     }

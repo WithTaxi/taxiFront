@@ -50,18 +50,21 @@ export default function ChangeInfo() {
     setEmailDomain(emailDomainTmp)
   }, [emailDomainTmp]);
 
-  //닉네임 마스킹 처리
+  //이름 마스킹 처리
   useEffect(() => {
     if (name.length == 2) {
       setName(name[0] + '*');
     }
-    else {
+    else if(name.length > 2){
       var tmp = name[0]
       for (var i = 0; i < name.length - 2; i++){
         tmp += '*';
       }
       tmp += name[name.length - 1];
       setName(tmp);
+    }
+    else if (name.length == 0) {
+      setName('');
     }
   }, [name]);
 
