@@ -16,6 +16,9 @@ function TaxiRoom() {
         id:0
     }]);
     const no = useRef(1)
+    const [state, updateState] = React.useState();
+
+    const forceUpdate = React.useCallback(() => updateState({}), []);
 
     // const [logged, setLogged] = useState(false);
 
@@ -117,11 +120,17 @@ function TaxiRoom() {
         }
     }
 
-
+    
     const enterRoom=(e)=>{
         localStorage.setItem('roomId',e.roomId);
         localStorage.setItem('sender',nick);
         document.location.href="/TaxiRoomDetail/"+e.roomName
+    }
+
+    const deleteRoom=(e)=>{
+        console.log(e.roomId)
+        axios.get("http://localhost:8080/chat/room/delete/"+e.roomId)
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -178,7 +187,7 @@ function TaxiRoom() {
                             </div>
                         </div>
                         <ul className="list-group">
-                            {list.map((item, idx) => { return item.id == 0 ? null : <li onClick={() => { enterRoom(item) }} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li> })}
+                            {list.map((item, idx) => { return item.id == 0 ? null : <li  key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span><button id="delete" onClick={() => {enterRoom(item)}}>입장</button><button id="delete" onClick={() => {deleteRoom(item)}}>삭제</button></li> })}
                         </ul>
                     </div>
                 </div>
