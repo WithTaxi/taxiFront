@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-body { min-height: 100vh; }
 
-body html{
+*{
     margin: 0;
     padding: 0;
 }
