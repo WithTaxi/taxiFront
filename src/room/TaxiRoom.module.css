@@ -94,6 +94,9 @@
     height: 30%;
     width: 90%;
     background-color: rgb(248, 249, 249);
-    
+    position: relative;
     margin-top: 20%;
+}
+
+#delete{
 }
