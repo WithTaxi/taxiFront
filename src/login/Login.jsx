@@ -109,6 +109,10 @@ export default function Login() {
       );
   }  
 
+  const idpwFind = (e) => {
+    window.open("/find", "find", "width=600, height=500, top=50, left=200")
+  }
+
   return (
     <div className={styles.main}>
       
@@ -167,8 +171,11 @@ export default function Login() {
                   htmlFor="login_main"
                 >로그인 유지</label>
               </span>
-              <span className={styles.idpw_find}>
-                <Link to="/Find">아이디 | 비밀번호 찾기</Link>
+              <span 
+                onClick={idpwFind}
+                className={styles.idpw_find}
+              >
+                아이디 | 비밀번호 찾기
               </span>
             </div>
           </form>
