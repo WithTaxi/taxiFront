@@ -120,6 +120,10 @@ export default function Login() {
     window.open("/find", "find", "width=600, height=500, top=50, left=200")
   }
 
+  const kakaoLogin = (e) => {
+    window.location.href = `http://localhost:8080/oauth2/authorization/kakao`;
+  }
+
   return (
     <div className={styles.main}>
       
@@ -186,16 +190,15 @@ export default function Login() {
               </span>
             </div>
           </form>
-          {/* <div className={styles.other_login}>
+          <div className={styles.other_login}>
             <a href="#"><div className={styles.google}>구글 로그인</div></a>
             <div className={styles.facebook} ><a href="#">페이스북 로그인</a> </div>
             <div className={styles.naver} ><a href="#">네이버 로그인</a> </div>
-            <div className={styles.kakao} ><a href="#">카카오 로그인</a> </div>
-          </div> */}
+            <div className={styles.kakao} onClick={kakaoLogin}><a href="#">카카오 로그인</a> </div>
+          </div>
           </div>
       </div>
     </div>
   )
 }
-
 
