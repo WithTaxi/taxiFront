@@ -1,3 +1,8 @@
+.header_wrapper{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 .main_wrapper{
   display: flex;
   flex-direction: column;
@@ -13,19 +18,25 @@
 .input{
   border: none;
   font-size: 16px;
-  height: 30px;
+  height: 50px;
   width: 300px;
   padding: 15px;
-  /* border-radius: 10px; */
+  border-radius: 10px;
   background-color: #F0F0F0;
   margin-top: 20px;
+}
+
+.error{
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
 .btn {
   border: none;
   font-size: 18px;
-  height: 65px;
-  width: 330px;
+  height: 60px;
+  width: 300px;
   background-color: #FFD540;
   cursor: pointer;
   margin-top: 20px;
