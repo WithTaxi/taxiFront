@@ -116,8 +116,12 @@ export default function Login() {
       );
   }  
 
-  const idpwFind = (e) => {
-    window.open("/find", "find", "width=600, height=500, top=50, left=200")
+  const idFind = (e) => {
+    window.open("/findId", "findId", "width=500, height=550, top=50, left=200")
+  }
+  
+  const pwFind = (e) => {
+    window.open("/findPw", "findPw", "width=600, height=500, top=50, left=200")
   }
 
   const kakaoLogin = (e) => {
@@ -183,10 +187,17 @@ export default function Login() {
                 >로그인 유지</label>
               </span>
               <span 
-                onClick={idpwFind}
-                className={styles.idpw_find}
+                onClick={idFind}
+                className={styles.id_find}
               >
-                아이디 | 비밀번호 찾기
+                아이디 찾기 | 
+              </span>
+              
+              <span 
+                onClick={pwFind}
+                className={styles.pw_find}
+              >
+                비밀번호 찾기
               </span>
             </div>
           </form>

@@ -128,8 +128,14 @@ margin-bottom: 40px;
   margin-top: 7px;
 }
 
-.idpw_find {
-  margin-left: 75px;
+.id_find {
+  margin-left: 55px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pw_find {
+  margin-left: 5px;
   font-size: 13px;
   cursor: pointer;
 }

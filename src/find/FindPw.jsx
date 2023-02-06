@@ -42,7 +42,9 @@ export default function FindPw() {
 
   return (
     <div>
-      <Header />
+      <div className={styles.header_wrapper}>
+        <Header />
+      </div>
       <div className={styles.main_wrapper}>
         <h1>비밀번호 찾기</h1>
         <div>

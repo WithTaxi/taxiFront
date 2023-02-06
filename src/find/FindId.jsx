@@ -1,15 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/headerForm';
+import { Link, useNavigate} from "react-router-dom";
+
 import axios from 'axios';
 import styles from './find.module.css';
 
 axios.defaults.withCredentials = true;
 
 export default function FindId() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  const [nameStyle, setNameStyle] = useState({ visibility: 'visible' });
+  const [emailStyle, setEmailStyle] = useState({ visibility: 'visible' });
+
   const [id, setId] = useState('');
+
+  useEffect(() => {
+    if (name !== '') {
+      setNameStyle({ visibility: 'hidden' });
+    }
+    else {
+      setNameStyle({ visibility: 'visible' });
+    }
+  }, [name]);
+
+  useEffect(() => {
+    if (email !== '') {
+      setEmailStyle({ visibility: 'hidden' });
+    }
+    else {
+      setEmailStyle({ visibility: 'visible' });
+    }
+  }, [email]);
 
   function postInfo(e) {
     e.preventDefault();
@@ -20,25 +45,27 @@ export default function FindId() {
         alert("아이디 찾기 성공");
         console.log(response.data);
         setId(response.data);
+        navigate('/FoundId');
       }).catch(function (error) {
         alert("error는 " + error);
         console.log(error.response);
       });
-
   }
 
   return (
     <div>
-      <Header />
+      <div className={styles.header_wrapper}>
+        <Header />
+      </div>
       <div className={styles.main_wrapper}>
-        <h1>아이디 찾기</h1>
+        <h2>아이디 찾기</h2>
         <div>
           <form
             className={styles.form_wrapper}
-            action="/api/user/findId"
-            method="GET"
+            
             onSubmit={postInfo}
           >
+            <div>
             <input
               type="text"
               name="name"
@@ -47,7 +74,15 @@ export default function FindId() {
               placeholder="Username"
               onChange={(e) => setName(e.target.value)}
             />
+              <div
+                style={nameStyle}
+                className={styles.error}
+              >
+              이름을 입력해주세요.
+              </div>
+              </div>
 
+            <div>
             <input
               type="email"
               name="email"
@@ -56,7 +91,14 @@ export default function FindId() {
               placeholder="UserEmail"
               onChange={(e) => setEmail(e.target.value)}
             />
-            {/* <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> */}
+              <div
+                style={emailStyle}
+                className={styles.error}
+              >
+              이메일을 입력해주세요.
+              </div>
+            </div>
+
             <button
               className={styles.btn}
               type="submit"
