@@ -15,11 +15,8 @@ function TaxiRoomDetail(props){
     const[sender,setSender]=useState('')
     const[room,setRoom]=useState(' ')
     let [messageList,setMessageList]=useState([{
-        
     }]);
-    const[user,setUser]=useState([{
-
-    }]);
+    const[userList,setUserList]=useState([{}])
 
     const no = useRef(1)
     const focusRef = useRef();
@@ -34,7 +31,7 @@ function TaxiRoomDetail(props){
     }
 
     const get=()=>{
-        axios.get("http://localhost:8080/chat/room/"+roomId)
+        axios.get("http://localhost:8080/chat/rooms/"+roomId)
             .then((response)=>{
                 setRoom(response.data.roomName)
                 console.log(room)
@@ -65,17 +62,7 @@ function TaxiRoomDetail(props){
         )
     }
 
-    const userList=()=>{
-        setUser((prev)=>{
-            return[
-                {
-                    id:no.current++,
-                    sender:sender
-                },
-                ...prev
-            ]
-        })
-    }
+    
    
     
  
@@ -86,7 +73,6 @@ function TaxiRoomDetail(props){
 
    
     useEffect(()=>{
-        userList()
         created()
         get()
         focusRef.current.focus();
@@ -98,6 +84,17 @@ function TaxiRoomDetail(props){
             });
             ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:roomId, sender:sender}));    
         }) 
+        console.log(sender)
+        setUserList((prev)=>{
+            return[
+                {   
+                    id : no.current++,
+                    name : sender,
+                },
+                ...prev,
+            ]
+        });
+        console.log(userList)
     },[sender])
 
     const onKeyPress =(e)=>{
@@ -125,8 +122,9 @@ function TaxiRoomDetail(props){
                     </div>
                 </div>
                 <ul id={styles.input} className="list-group">
-                    {messageList.map((item,idx)=>{return item.id!=null?(item.message===null?<li className="list-group-item" key={item.key}>{item.sender}</li>:<li className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}
+                    {messageList.map((item,idx)=>{return item.id!=null?<li className="list-group-item"  key={item.id}>{item.sender}-{item.inMessage}</li>:null})}
                 </ul>
+
                 <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
             </div>
            

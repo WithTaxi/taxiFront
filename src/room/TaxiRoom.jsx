@@ -187,7 +187,7 @@ function TaxiRoom() {
                             </div>
                         </div>
                         <ul className="list-group">
-                            {list.map((item, idx) => { return item.id == 0 ? null : <li  key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span><button id="delete" onClick={() => {enterRoom(item)}}>입장</button><button id="delete" onClick={() => {deleteRoom(item)}}>삭제</button></li> })}
+                            {list.map((item, idx) => { return item.id == 0 ? null : <li  key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<div id={styles.button}><button id="delete" onClick={() => {enterRoom(item)}}>입장</button><button id="delete" onClick={() => {deleteRoom(item)}}>삭제</button></div></li> })}
                         </ul>
                     </div>
                 </div>
