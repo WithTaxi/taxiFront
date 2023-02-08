@@ -88,6 +88,7 @@ export default function Login() {
     await axios.get('http://localhost:8080/api/user/info')
       .then((res) => {
         console.log(res.data);
+        window.localStorage.setItem("name", res.data["userId"]);
         window.localStorage.setItem("name", res.data["name"]);
         window.localStorage.setItem("sex", res.data["sex"]);
         window.localStorage.setItem("nickName", res.data["nickName"]);

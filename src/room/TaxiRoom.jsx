@@ -10,6 +10,7 @@ function TaxiRoom() {
     const navigate = useNavigate();
     const [roomName,setRoomName]=useState("");
     const [list, setList] = useState([]);
+    const [userId, setUserId] = useState(window.localStorage.getItem("userId"));
     const [univ, setUniv] = useState(window.localStorage.getItem("university"));
     const [nick, setNick] = useState(window.localStorage.getItem("nickName"));
     let [ItemList,setItemList]=useState([{
@@ -19,7 +20,7 @@ function TaxiRoom() {
     const [state, updateState] = React.useState();
 
     const forceUpdate = React.useCallback(() => updateState({}), []);
-
+    
 
 
 
@@ -114,8 +115,11 @@ function TaxiRoom() {
 
     const deleteRoom=(e)=>{
         console.log(e.roomId)
-        axios.get("http://localhost:8080/chat/room/delete/"+e.roomId)
-        window.location.reload();
+        if(e.host_id==userId){
+            axios.get("http://localhost:8080/chat/room/delete/"+e.roomId)
+            window.location.reload();
+        }
+        
     }
 
     useEffect(() => {
