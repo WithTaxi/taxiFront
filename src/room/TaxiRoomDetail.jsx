@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useState,useEffect,useRef } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import SockJS from 'sockjs-client'
 import Stomp from "stompjs";
 import styles from './TaxiRoomDetail.module.css'
-
 import IsLogin from '../utils/isLogin';
 
 
@@ -96,12 +95,9 @@ function TaxiRoomDetail(props){
         }
     }
 
-    useEffect(() => {
-        if (!IsLogin()) {
-            navigate('/login');
-        }
-    }, [IsLogin()]);
     
+    
+
     return(
         <>
             <div className="container">
