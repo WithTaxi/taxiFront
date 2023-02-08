@@ -20,25 +20,7 @@ function TaxiRoom() {
 
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
-    // const [logged, setLogged] = useState(false);
 
-    // useEffect(() => {
-    //     if (window.localStorage.getItem('userId')) {
-    //         setLogged(true);
-    //     }
-    //     else {
-    //         setLogged(false);
-    //     }
-    // }, [window.localStorage.getItem('userId')])
-
-    // useEffect(() => {
-    //     if (props.logged) {
-    //         setLogged(true);
-    //     }
-    //     else {
-    //         setLogged(false);
-    //     }
-    // }, [props.logged]);
 
 
     const login = () => {
@@ -124,7 +106,10 @@ function TaxiRoom() {
     const enterRoom=(e)=>{
         localStorage.setItem('roomId',e.roomId);
         localStorage.setItem('sender',nick);
-        document.location.href="/TaxiRoomDetail/"+e.roomName
+        if(e.userCount<5){
+            document.location.href="/TaxiRoomDetail/"+e.roomName
+        }
+        
     }
 
     const deleteRoom=(e)=>{
@@ -187,7 +172,7 @@ function TaxiRoom() {
                             </div>
                         </div>
                         <ul className="list-group">
-                            {list.map((item, idx) => { return item.id == 0 ? null : <li  key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span><button id="delete" onClick={() => {enterRoom(item)}}>입장</button><button id="delete" onClick={() => {deleteRoom(item)}}>삭제</button></li> })}
+                            {list.map((item, idx) => { return item.id == 0 ? null : <li  key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}({item.userCount}/4)<div id={styles.button}><button id="delete" onClick={() => {enterRoom(item)}}>입장</button><button id="delete" onClick={() => {deleteRoom(item)}}>삭제</button></div></li> })}
                         </ul>
                     </div>
                 </div>

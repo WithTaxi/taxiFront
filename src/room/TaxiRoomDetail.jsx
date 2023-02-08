@@ -15,11 +15,8 @@ function TaxiRoomDetail(props){
     const[sender,setSender]=useState('')
     const[room,setRoom]=useState(' ')
     let [messageList,setMessageList]=useState([{
-        
     }]);
-    const[user,setUser]=useState([{
-
-    }]);
+    const[userList,setUserList]=useState([{}])
 
     const no = useRef(1)
     const focusRef = useRef();
@@ -34,7 +31,7 @@ function TaxiRoomDetail(props){
     }
 
     const get=()=>{
-        axios.get("http://localhost:8080/chat/room/"+roomId)
+        axios.get("http://localhost:8080/chat/rooms/"+roomId)
             .then((response)=>{
                 setRoom(response.data.roomName)
                 console.log(room)
@@ -46,6 +43,7 @@ function TaxiRoomDetail(props){
     const created=()=>{
         setRoomId(localStorage.getItem('roomId'));
         setSender(localStorage.getItem('sender'));
+        connect()
     }
 
     
@@ -65,31 +63,15 @@ function TaxiRoomDetail(props){
         )
     }
 
-    const userList=()=>{
-        setUser((prev)=>{
-            return[
-                {
-                    id:no.current++,
-                    sender:sender
-                },
-                ...prev
-            ]
-        })
-    }
+    
    
     
  
     let navigate = useNavigate();
-    
     let sock = new SockJS("http://localhost:8080/ws/chat");
     let ws = Stomp.over(sock);
 
-   
-    useEffect(()=>{
-        userList()
-        created()
-        get()
-        focusRef.current.focus();
+    const connect=()=>{
         ws.connect({},()=>{
             ws.subscribe("/topic/chat/room/"+roomId,(response)=>{
                 const recv = JSON.parse(response.body);
@@ -98,7 +80,15 @@ function TaxiRoomDetail(props){
             });
             ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:roomId, sender:sender}));    
         }) 
+    }
+   
+    useEffect(()=>{
+        created()
+        get()
+        focusRef.current.focus();
     },[sender])
+
+    
 
     const onKeyPress =(e)=>{
         if(e.key=="Enter"){
@@ -125,8 +115,9 @@ function TaxiRoomDetail(props){
                     </div>
                 </div>
                 <ul id={styles.input} className="list-group">
-                    {messageList.map((item,idx)=>{return item.id!=null?(item.message===null?<li className="list-group-item" key={item.key}>{item.sender}</li>:<li className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}
+                    {messageList.map((item,idx)=>{return item.id!=null?(item.inMessage==' 님이 입장하셨습니다'?null:<li className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}                
                 </ul>
+
                 <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
             </div>
            
