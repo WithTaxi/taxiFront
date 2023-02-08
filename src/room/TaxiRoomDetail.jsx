@@ -43,6 +43,7 @@ function TaxiRoomDetail(props){
     const created=()=>{
         setRoomId(localStorage.getItem('roomId'));
         setSender(localStorage.getItem('sender'));
+        connect()
     }
 
     
@@ -67,15 +68,10 @@ function TaxiRoomDetail(props){
     
  
     let navigate = useNavigate();
-    
     let sock = new SockJS("http://localhost:8080/ws/chat");
     let ws = Stomp.over(sock);
 
-   
-    useEffect(()=>{
-        created()
-        get()
-        focusRef.current.focus();
+    const connect=()=>{
         ws.connect({},()=>{
             ws.subscribe("/topic/chat/room/"+roomId,(response)=>{
                 const recv = JSON.parse(response.body);
@@ -84,18 +80,15 @@ function TaxiRoomDetail(props){
             });
             ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:roomId, sender:sender}));    
         }) 
-        console.log(sender)
-        setUserList((prev)=>{
-            return[
-                {   
-                    id : no.current++,
-                    name : sender,
-                },
-                ...prev,
-            ]
-        });
-        console.log(userList)
+    }
+   
+    useEffect(()=>{
+        created()
+        get()
+        focusRef.current.focus();
     },[sender])
+
+    
 
     const onKeyPress =(e)=>{
         if(e.key=="Enter"){
@@ -122,7 +115,7 @@ function TaxiRoomDetail(props){
                     </div>
                 </div>
                 <ul id={styles.input} className="list-group">
-                    {messageList.map((item,idx)=>{return item.id!=null?<li className="list-group-item"  key={item.id}>{item.sender}-{item.inMessage}</li>:null})}
+                    {messageList.map((item,idx)=>{return item.id!=null?(item.inMessage==' 님이 입장하셨습니다'?null:<li className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}                
                 </ul>
 
                 <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
