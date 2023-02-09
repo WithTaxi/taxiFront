@@ -173,12 +173,12 @@ export default function ChangeInfo() {
     <div>
       <Header />
 
-      <div className={modules.main_wrapper}>
+      <div className={styles.main_wrapper}>
         <table>
           {/* <colgroup className={modules.colgroup}></colgroup> */}
 
           <tbody>
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>아이디</span>
               </th>
@@ -192,7 +192,7 @@ export default function ChangeInfo() {
               </td>
             </tr>
             
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>이름</span>
               </th>
@@ -206,7 +206,7 @@ export default function ChangeInfo() {
               </td>
             </tr>
 
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>성별</span>
               </th>
@@ -220,7 +220,7 @@ export default function ChangeInfo() {
               </td>
             </tr>
 
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>닉네임</span>
               </th>
@@ -236,7 +236,7 @@ export default function ChangeInfo() {
               </td>
             </tr>
 
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>핸드폰 번호</span>
               </th>
@@ -251,7 +251,7 @@ export default function ChangeInfo() {
               </td>
             </tr>
 
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>생년월일</span>
               </th>
@@ -265,7 +265,7 @@ export default function ChangeInfo() {
               </td>
             </tr>
 
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>이메일</span>
               </th>
@@ -299,7 +299,7 @@ export default function ChangeInfo() {
               </td>
             </tr>
 
-            <tr className={modules.tr}>
+            <tr className={styles.tr}>
               <th>
                 <span>대학교</span>
               </th>

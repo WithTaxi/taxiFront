@@ -3,6 +3,10 @@
   margin: 0;
 }
 
+.header{
+  margin: 30px;
+}
+
 .form_wrapper {
   display: flex;
   flex-direction: column;
@@ -17,8 +21,9 @@ input[type="tel"],
 input[type="date"],
 input[type="email"]*/ 
 .input{ 
-  width: 400px;
-  height: 50px;
+  width: 500px;
+  height: 65px;
+  font-size: 20px;
   border: none;
   background-color: rgb(238, 238, 238);
   margin: 5px 0;
@@ -31,14 +36,14 @@ input[type="email"]*/
 }
 
 .ID_search{
-  height: 30px;
+  height: 65px;
   text-align: center;
-  line-height: 30px;
+  line-height: 40px;
   margin-top: 5px;
   border: none;
   background-color: black;
   color: white;
-  width: 110px;
+  width: 150px;
   margin-left: 25px;
   font-size: 12px;
   padding: 10px;
@@ -47,14 +52,14 @@ input[type="email"]*/
 }
 
 .nickname_search {
-  height: 30px;
+  height: 65px;
   text-align: center;
-  line-height: 30px;
+  line-height: 40px;
   margin-top: 5px;
   border: none;
   background-color: black;
   color: white;
-  width: 110px;
+  width: 150px;
   margin-left: 25px;
   font-size: 12px;
   padding: 10px;
@@ -85,7 +90,7 @@ input[type="email"]*/
 }
 
 .emailSelect {
-  height: 50px;
+  height: 65px;
   margin-left: 15px;
   margin-top: 5px;
   width: 200px;
@@ -98,6 +103,7 @@ input[type="email"]*/
 
 .email_auth{
   width: 70px;
+  height: 50px;
   margin-left: 25px;
   background-color: black;
   color: white;
@@ -105,11 +111,16 @@ input[type="email"]*/
 
 .id,
 .univ,
-.nickName,
-.email {
+.nickName {
   display: flex;
   flex-direction: row;
-  width: 420px;
+  width: 500px;
+}
+
+.email{
+  display: flex;
+  flex-direction: row;
+  width: 600px;
 }
 
 .univ_input {
@@ -122,14 +133,14 @@ input[type="email"]*/
 }
 
 .univ_search {
-  height: 30px;
+  height: 65px;
   text-align: center;
-  line-height: 30px;
+  line-height: 40px;
   margin-top: 5px;
   border: none;
   background-color: black;
   color: white;
-  width: 110px;
+  width: 150px;
   margin-left: 25px;
   font-size: 12px;
   padding: 10px;
@@ -200,7 +211,7 @@ input[type="email"]*/
 }
 
 .joinbtn {
-  width: 422px;
+  width: 500px;
   height: 60px;
   border: none;
   background-color: #FFD540;

@@ -45,12 +45,22 @@ export default function FindId() {
         alert("아이디 찾기 성공");
         console.log(response.data);
         setId(response.data);
-        navigate('/FoundId');
+        
       }).catch(function (error) {
         alert("error는 " + error);
         console.log(error.response);
       });
   }
+
+  useEffect(() => {
+    if (id !== '') {
+      navigate('/FoundId', {
+        state: {
+          id: id
+        }
+      });
+    }
+  }, [id]);
 
   return (
     <div>
