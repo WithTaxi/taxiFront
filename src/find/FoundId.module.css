@@ -1,0 +1,71 @@
+.header_wrapper{
+  margin-top: 30px;
+}
+
+.FoundId{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fieldSet{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.info{
+  font-size: 20px;
+  margin: 15px;
+}
+
+.idbox{
+  margin-top: 20px;
+  font-size: 25px;
+  border: 1px solid #e0dfdf;
+  padding: 10px 130px;
+}
+
+
+.copyImg{
+    margin-left: 15px;
+  width: 30px;
+  height: 30px;
+}
+
+.after_wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.findPw{
+  margin-top: 40px;
+  margin-bottom: 20px;
+  width: 400px;
+  height: 65px;
+  border: none;
+  font-size: 25px;
+  background-color: #FFD540;
+}
+
+.pw_link{
+  text-decoration: none;
+  color: black;
+}
+
+.pw_link:hover {
+  color: black;
+}
+
+.login{
+  margin-top: 20px;
+  margin-bottom: 40px;
+  font-size: 25px;
+  /* padding: 10px 50px; */
+  width: 400px;
+    height: 65px;
+  border: none;
+  background-color: #FFD540;
+}
