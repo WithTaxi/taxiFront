@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef} from 'react'
 import axios, { AxiosHeaders } from 'axios';
 import Header from '../components/headerForm';
+import styles from './confirmPw.module.css';
 import modules from './userInfo.module.css';
 
 import { Link, useNavigate} from "react-router-dom";
@@ -54,21 +55,29 @@ export default function ConfirmPw() {
     // })
   }
   return (
-    <div>
-      <div>현재 비밀번호를 입력하세요</div>
-      <div>
+    <div className={styles.main_wrapper}>
+      <div className={styles.header}>
+        <Header />
+      </div>
+
+      <div className={styles.title}>현재 비밀번호를 입력하세요</div>
+      <div className={styles.content_wrapper}>
         <form ref={formRef}>
-          <div>
+          <div className={styles.content}>
             <input
               name='password'
-              type='password'
+            type='password'
+            placeholder='password'
               value={password}
+              className={styles.PwInput}
               onChange={(e) => setPassword(e.target.value)}
-            />
+          />
+          
             <button
-              onClick={chkPw}
+            onClick={chkPw}
+              className={styles.PwBtn}
               style={{ height: "50px"}}
-              />
+            >입력</button>
           </div>
         </form>
       </div>
