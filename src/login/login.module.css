@@ -34,7 +34,7 @@ img {
 
 .join>a {
   text-decoration: none;
-  font-size: 16px;
+  font-size: 20px;
   color: #FFD540;
   font-weight: 700px;
 }
@@ -45,31 +45,33 @@ img {
 
 
 
-.id {
+.loginId {
   border: none;
-  font-size: 16px;
-  height: 35px;
-  width: 300px;
+  font-size: 20px;
+  height: 65px;
+  width: 400px;
   padding: 15px;
+  margin: 10px 0;
   border-radius: 10px;
   background-color: #F0F0F0;
 }
 
-.pw {
+.loginPw {
   border: none;
-  font-size: 16px;
-  height: 35px;
-  width: 300px;
+  font-size: 20px;
+  height: 65px;
+  width: 400px;
   padding: 15px;
+  margin: 10px 0;
   border-radius: 10px;
   background-color: #F0F0F0;
 }
 
 .login_btn {
   border: none;
-  font-size: 18px;
-  height: 65px;
-  width: 330px;
+  font-size: 23px;
+  height: 70px;
+  width: 400px;
   background-color: #FFD540;
   cursor: pointer;
 }
@@ -109,8 +111,9 @@ img {
 }
 
 
-._wrapper{
-margin-bottom: 40px;
+.findWrapper{
+  margin-bottom: 40px;
+  margin-top: 15px;
 }
 
 .bot_wrapper {
@@ -125,18 +128,24 @@ margin-bottom: 40px;
 
 .login_man {
   margin-right: 10px;
+  font-size: 20px;
   margin-top: 7px;
 }
 
+.loginManText{
+  font-size: 20px;
+}
+
 .id_find {
-  margin-left: 55px;
-  font-size: 13px;
+  margin-top: 20px;
+  margin-left: 90px;
+  font-size: 16px;
   cursor: pointer;
 }
 
 .pw_find {
   margin-left: 5px;
-  font-size: 13px;
+  font-size: 16px;
   cursor: pointer;
 }
 

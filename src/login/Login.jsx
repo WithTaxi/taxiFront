@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 import { setCookie, getCookie } from '../cookie.js';
 
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
@@ -14,6 +14,8 @@ export default function Login() {
   axios.defaults.withCredentials = true;
 
   const navigate = useNavigate();
+  const location = useLocation();
+
   const formRef = useRef();
   var userInfo = [];
 
@@ -28,6 +30,15 @@ export default function Login() {
   const [pwValid, setPwValid] = useState(false);
   const [idpwOk, setIdPwOk] = useState(false);
 
+    useEffect(() => {
+      if (location.state !== null) {
+        setId(location.state.id);
+        console.log(id);
+      }
+      else {
+        setId('');
+    }
+    }, [location.state]);
 
   useEffect(() => {
     if (idValid && pwValid) {
@@ -117,11 +128,13 @@ export default function Login() {
   }  
 
   const idFind = (e) => {
-    window.open("/findId", "findId", "width=500, height=550, top=50, left=200")
+    //window.open("/findId", "findId", "width=500, height=550, top=50, left=200")
+    navigate('/findId');
   }
   
   const pwFind = (e) => {
-    window.open("/findPw", "findPw", "width=600, height=500, top=50, left=200")
+    //window.open("/findPw", "findPw", "width=600, height=500, top=50, left=200")
+    navigate('/findPw');
   }
 
   const kakaoLogin = (e) => {
@@ -144,7 +157,7 @@ export default function Login() {
                 value={id}
                 onChange={(e) => setId(e.target.value)}
                 placeholder="아이디"
-                className={styles.id}
+                className={styles.loginId}
                 required
               />
               
@@ -159,7 +172,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="비밀번호"
-                className={styles.pw}
+                className={styles.loginPw}
                 required
               />
             </div>
@@ -172,9 +185,9 @@ export default function Login() {
               onClick={postInfo}
             >로그인</button></div>
 
-            <div className="_wrapper">
+            <div className={styles.findWrapper}>
               <span className={styles.chk_wrapper}>
-                <input
+                {/* <input
                   id='login_main'
                   type="checkbox"
                   name="login_man"
@@ -184,7 +197,8 @@ export default function Login() {
                 />
                 <label
                   htmlFor="login_main"
-                >로그인 유지</label>
+                  className={styles.loginManText}
+                >로그인 유지</label> */}
               </span>
               <span 
                 onClick={idFind}
@@ -201,12 +215,12 @@ export default function Login() {
               </span>
             </div>
           </form>
-          <div className={styles.other_login}>
+          {/* <div className={styles.other_login}>
             <a href="#"><div className={styles.google}>구글 로그인</div></a>
             <div className={styles.facebook} ><a href="#">페이스북 로그인</a> </div>
             <div className={styles.naver} ><a href="#">네이버 로그인</a> </div>
             <div className={styles.kakao} onClick={kakaoLogin}><a href="#">카카오 로그인</a> </div>
-          </div>
+          </div> */}
           </div>
       </div>
     </div>
