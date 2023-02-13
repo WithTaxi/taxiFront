@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './FoundId.module.css'
 import Header from '../components/headerForm';
-import copyImg from './copyBtn.png';
+// import copyImg from './copyBtn.png';
 // import FieldSet from 'react-native-fieldset';
 // import { View, Text } from 'react-native';
 import axios from 'axios';
