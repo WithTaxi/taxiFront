@@ -348,7 +348,9 @@ export default function Join() {
   return (
 
     <div id="wrapper">
-      <Header />
+      <div className={styles.header}>
+        <Header />
+      </div>
 
       <div className={styles.form_wrapper}>
         <form action ="/joinForm" method="POST">

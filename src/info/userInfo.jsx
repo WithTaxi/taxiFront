@@ -19,8 +19,9 @@ export default function UserInfo() {
       .then((response) => {
         console.log(response);
         if (response.data == 1) {
-          alert('탈퇴 되었습니다.')
-          navigate('/')
+          alert('탈퇴 되었습니다.');
+          navigate('/login');
+          window.localStorage.clear();
         }
       })
     }
@@ -28,14 +29,20 @@ export default function UserInfo() {
   }
   
   return (
-    <div>
-      <Header />
-      <div><a href='/confirmPw1'>개인 정보 변경</a></div>
-      <div><a href='/confirmPw2'>비밀번호 변경</a></div>
-      <div><a
+    <div className={modules.userInfo_wrapper}>
+      <div className={modules.header}>
+        <Header />
+      </div>
+
+      <div className={modules.chnInfoDiv}><button className={modules.chnInfoBtn}><a className={modules.chnInfo} href='/confirmPw1'>개인 정보 변경</a></button></div>
+      <div className={modules.chnPwDiv}><button className={modules.chnPwBtn}><a className={modules.chnPw} href='/confirmPw2'>비밀번호 변경</a></button></div>
+      <div className={modules.memberOutDiv}>
+        <button className={modules.memberOutBtn}>
+        <a
+        className={modules.memberOut}
         onClick={withDrawal}
         style={{cursor: 'pointer'}}
-      >회원탈퇴</a></div>
+      >회원탈퇴</a></button></div>
     </div>
   );
 }

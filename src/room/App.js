@@ -4,12 +4,18 @@ import TaxiRoom from './TaxiRoom';
 import TaxiRoomDetail from './TaxiRoomDetail'
 import Login from "../login/Login";
 import Join from "../join/Join";
+
 import Find from "../find/selectFind";
 import FindId from "../find/FindId";
 import FindPw from "../find/FindPw";
+
+import FoundId from "../find/FoundId";
+
 import Info from "../info/userInfo"
+
 import ChangeInfo from '../info/changeInfo';
 import ChangePw from '../info/changePw';
+
 import ConfirmPw1 from '../info/confirmPw1';
 import ConfirmPw2 from '../info/confirmPw2';
 
@@ -54,8 +60,12 @@ function App() {
         element={<Login parentFunction={parentFunction} />}
       ></Route>
       <Route path='/join' element={<Join />}></Route>
+
       <Route path='/find' element={<Find />}></Route>
+
       <Route path='/findId' element={<FindId />}></Route>
+      <Route path='/foundId' element={<FoundId />}></Route>
+
       <Route path='/findPw' element={<FindPw />}></Route>
 
       <Route path='/info' element={<Info />}></Route>

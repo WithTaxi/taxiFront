@@ -2,15 +2,26 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/headerForm';
 import axios from 'axios';
 import styles from './find.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
 export default function FindPw() {
 
+  const location = useLocation();
   const navigate = useNavigate();
   const [disable, setDisable] = useState(false);
   const [id, setId] = useState('');
+
+  // console.log(location);
+
+  useEffect(() => {
+
+    if (location.state!== null) {
+      setId(location.state.id);
+      console.log(id);
+    }
+  }, [location.state]);
 
 
   var params = new URLSearchParams();
@@ -26,7 +37,7 @@ export default function FindPw() {
       alert("임시 비밀번호를 발급하였습니다. 메일함을 확인해주세요.");
       console.log(response);
       
-      navigate('/login');
+      window.close();
     }).catch(function (error) {
       alert("error는 " + error);
       console.log(error.response);

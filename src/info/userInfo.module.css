@@ -1,13 +1,76 @@
-.main_wrapper{
+.header{
+  margin: 30px;
+}
+
+.userInfo_wrapper{
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.colgroup{
-  display: table-column-group;
+.chnInfoDiv{
+  font-size: 30px;
+  margin: 30px 0;
+  width: 40%;
+  /* border: 1px solid rgb(218, 215, 215); */
 }
 
-.tr{
-  display: table-row;
-  vertical-align: inherit;
+.chnInfoBtn{
+  width: 100%;
+  height: 80px;
+  background-color: rgba(218, 215, 215, 0.3);
+  border: 1px solid rgb(218, 215, 215);
+}
+
+.chnInfo{
+  text-decoration: none;
+  color: black;
+}
+
+.chnInfo:hover {
+  color: rgb(100, 100, 100);
+}
+
+.chnPwDiv{
+  font-size: 30px;
+  margin: 30px 0;
+  width: 40%;
+}
+
+.chnPwBtn{
+  width: 100%;
+    height: 80px;
+    background-color: rgba(218, 215, 215, 0.3);
+    border: 1px solid rgb(218, 215, 215);
+}
+
+.chnPw{
+  text-decoration: none;
+  color: black;
+}
+
+.chnPw:hover {
+  color: rgb(100, 100, 100);
+}
+
+.memberOutDiv{
+  font-size: 30px;
+    margin: 30px 0;
+    width: 40%;
+}
+
+.memberOutBtn{
+  width: 100%;
+    height: 80px;
+    background-color: rgba(228, 225, 225, 0.3);
+    border: 1px solid rgb(218, 215, 215);
+}
+
+.memberOut{
+  text-decoration: none;
+    color: black;
+}
+
+.memberOut:hover {
+  color: rgb(100, 100, 100);
 }
