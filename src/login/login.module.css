@@ -1,157 +1,102 @@
-* {
-  padding: 0;
+*{
+  padding:0;
   margin: 0;
 }
 
-.main {
-  padding-top: 80px;
+body{
+  background-color: #D7E4FF;
 }
 
-#header {
+.main{
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 80px;
+  flex-direction: column;
+  align-items: center;
 }
+.main_wrapper{
+  background-color: white;
+  border-radius: 30px;
+  width: 60%;
+  height: 600px;
+  margin-top: 120px;
 
-img {
-  height: 130px;
-  width: 100px;
-}
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
-#title {
-  line-height: 130px;
-  margin-left: 50px;
-  font-size: 50px;
-  font-weight: bolder;
-}
-
-.main_wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.join>a {
-  text-decoration: none;
-  font-size: 20px;
-  color: #FFD540;
-  font-weight: 700px;
-}
-
-.form_wrapper {
-  margin: 10px;
-}
-
-
-
-.loginId {
-  border: none;
-  font-size: 20px;
-  height: 65px;
-  width: 400px;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-  background-color: #F0F0F0;
-}
-
-.loginPw {
-  border: none;
-  font-size: 20px;
-  height: 65px;
-  width: 400px;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-  background-color: #F0F0F0;
-}
-
-.login_btn {
-  border: none;
-  font-size: 23px;
-  height: 70px;
-  width: 400px;
-  background-color: #FFD540;
-  cursor: pointer;
-}
-
-.google, .facebook, .naver, .kakao {
-  border: none;
-  height: 55px;
-  width: 335px;
-  line-height: 55px;
-  margin-top: 15px;
-  cursor: pointer;
+.form_wrapper{
+  width: 100%;
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
-.google{
-  background-color: #F0F0F0;
-  
+.form{
+  width: 55%;
 }
 
-.facebook{
-  background-color: rgba(28, 54, 167, 0.836);
+.title{
+  width: 100%;
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
 }
 
-.naver{
-  background-color: rgba(28, 168, 28, 0.836);
+.id_wrapper{
+  margin-top: 20px;
 }
 
-.kakao{
-  background-color: rgba(245, 232, 47, 0.945);
+.id_title{
+  margin-left: 10px;
+  color: grey;
 }
 
-.other_login a{
-  text-decoration: none;
-  color: black;
-  font-size: 18px;
-  align-items: center;
+.loginId{
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  border: none;
+  background-color: #F4F4F4;
 }
 
+.pw_title{
+margin-left: 10px;
+color: grey;
+}
+
+.loginPw{
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  border: none;
+  background-color: #F4F4F4;
+}
+
+.login_btn{
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 50px;
+  background-color: #5379FF;
+  color: white;
+  font-size: 20px;
+}
 
 .findWrapper{
-  margin-bottom: 40px;
-  margin-top: 15px;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
 }
 
-.bot_wrapper {
-  flex-direction: row;
+.pw_find{
+  margin-left: 10px;
 }
 
-.chk_wrapper {
-  margin: 10px;
-  font-size: 13px;
-
-}
-
-.login_man {
-  margin-right: 10px;
-  font-size: 20px;
-  margin-top: 7px;
-}
-
-.loginManText{
-  font-size: 20px;
-}
-
-.id_find {
-  margin-top: 20px;
-  margin-left: 90px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.pw_find {
-  margin-left: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-span>a {
+.join{
+  margin-top: 80px;
   text-decoration: none;
-  font-size: 13px;
-  color: black;
+  color: #B0AFAF;
 }
-
