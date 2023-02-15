@@ -50,7 +50,7 @@ export default function ChangePw() {
       const response = await axios
         .put("http://localhost:8080/api/user/modifyPassword", {
           password: newPw
-        }, { "Content-Type": 'application/json' })
+        },  { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } })
       console.log(response);
       if (response.data == 1) {
         window.localStorage.setItem('password', newPw);
