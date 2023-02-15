@@ -64,18 +64,15 @@ export default function Login() {
           userId: id,
           password: password,
         }, { "Content-Type": 'application/json', withCredentials: true });
-      // axios.defaults.headers.common[
-      //   "Authorization"
-      // ] = 
       
       //response 401: 회원 정보 잘못됨, 400: 정보 없음
       
         //로그인 성공 시
-        alert("로그인 성공!");
+      alert("로그인 성공!");
+      // console.log(response.data.split(' ')[1]);
         console.log(response.data.slice(7));
-      axios.defaults.headers.common['Authorization'] = response.data;
+        axios.defaults.headers.common['Authorization'] = response.data;
       
-      setToken(response.data.slice(7));
         window.localStorage.setItem("token", response.data.slice(7));
         window.localStorage.setItem("userId", id);
         window.localStorage.setItem("password", password);
@@ -114,26 +111,12 @@ export default function Login() {
 
   }
 
-  // const handleCookie = (userId, password) => {
-  //   setCookie(
-  //       'cookie',
-  //       {
-  //         userId: userId,
-  //         password: password,
-  //       },
-  //       {
-  //         path: '/',
-  //       }
-  //     );
-  // }  
 
   const idFind = (e) => {
-    //window.open("/findId", "findId", "width=500, height=550, top=50, left=200")
     navigate('/findId');
   }
   
   const pwFind = (e) => {
-    //window.open("/findPw", "findPw", "width=600, height=500, top=50, left=200")
     navigate('/findPw');
   }
 
@@ -142,11 +125,13 @@ export default function Login() {
   }
 
   return (
+    <div className={styles.body}>
+
     <div className={styles.main}>
       <main className={styles.main_wrapper}>
         <div className={styles.form_wrapper}>
           <form action="/login" method="POST" className={styles.form}/*</div>ref={formRef}*/>
-            <div className={styles.title}>LOGIN</div>
+            <div className={styles.title}>Login</div>
             <div className={styles.id_wrapper}>
               <div className={styles.id_title}>아이디</div>
               <input 
@@ -225,7 +210,9 @@ export default function Login() {
           </div>
       </main>
       
-    </div>
+      </div>
+      
+      </div>
   )
 }
 
