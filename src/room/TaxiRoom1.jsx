@@ -5,8 +5,6 @@ import axios from "axios"
 import { Link, useNavigate} from "react-router-dom";
 import { clear } from '@testing-library/user-event/dist/clear';
 import IsLogin from '../utils/isLogin';
-import Room from './room'
-
 
 function TaxiRoom() {
     const navigate = useNavigate();
@@ -105,9 +103,7 @@ function TaxiRoom() {
         }
     }
 
-    const newRoom=()=>{
-        document.location.href="/"
-    }
+    
     const enterRoom=(e)=>{
         localStorage.setItem('roomId',e.roomId);
         localStorage.setItem('sender',nick);
@@ -136,11 +132,8 @@ function TaxiRoom() {
             <>
             
                 <div id={styles.ti}>
-                    <h2 onClick={newRoom}>Taxi <>Ride Together</></h2>
-                    <div id={styles.nav}>
-                        <button id={styles.navInform}>내정보</button>     
-                        <button id={styles.navLog}>로그아웃</button>
-                    </div>
+                    <img id={styles.taxiImage} src="Taxi.jpg"></img>
+                    <h2>택시합승</h2>
                 </div>
                 <div id={styles.wrap}>
                     <div id={styles.inform}>
@@ -179,24 +172,12 @@ function TaxiRoom() {
                             </div>
                             <input type="text" className="form-control" value={roomName} onChange={onChange} onKeyDown={onKeyPress} />
                             <div >
-                                <button className="btn btn-primary" id={styles.btnPrimary} type="button" onClick={() => (createRoom(), AddList())}>채팅방 개설</button>
+                                <button className="btn btn-primary" type="button" onClick={() => (createRoom(), AddList())}>채팅방 개설</button>
                             </div>
                         </div>
-                        <div id={styles.app_container}>
-                            {
-                            list.map((item)=>{
-                                return(
-                                    <Room
-                                        item={item}
-                                        enterRoom={enterRoom}
-                                        title={item.roomName}
-                                        userCount={item.userCount}
-                                    />
-                                    )
-                                })
-                            }
-                        </div>
-                        
+                        <ul className="list-group">
+                            {list.map((item, idx) => { return item.id == 0 ? null : <li  key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}({item.userCount}/4)<div id={styles.button}><button id="delete" onClick={() => {enterRoom(item)}}>입장</button><button id="delete" onClick={() => {deleteRoom(item)}}>삭제</button></div></li> })}
+                        </ul>
                     </div>
                 </div>
             </>

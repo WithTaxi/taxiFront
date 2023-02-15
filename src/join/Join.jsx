@@ -347,31 +347,29 @@ export default function Join() {
 
   return (
 
-    <div id="wrapper">
-      <div className={styles.header}>
-        <Header />
-      </div>
-
-      <div className={styles.form_wrapper}>
-        <form action ="/joinForm" method="POST">
-
+    <div className={styles.joinMain}>
+      
+      <main className={styles.joinMain_wrapper}>
+      <div className={styles.joinForm_wrapper}>
+        <form action ="/joinForm" method="POST" className={styles.form}>
+          <div className={styles.title}>JOIN</div>
           
           <div className={styles.form_content}>
-            아이디 <br />
-            <div className={styles.id}>
+            <div className={styles.joinIdTitle}>아이디</div>
+            <div className={styles.joinId}>
               
               <input
                 type="text"
                 className={styles.input}
                 name="id"
-                placeholder="UserId"
+                placeholder="아이디"
                 value={ID}
                 onChange={(e) => setID(e.target.value)}
               />
               <a
                 className={styles.ID_search}
                 onClick={IDSearch}
-              >아이디 중복 확인</a>
+              >중복 확인</a>
               <br />
             </div>
             <div
@@ -382,12 +380,12 @@ export default function Join() {
 
           <div className={styles.form_content}>
             <div className="pw">
-              비밀번호 <br />
+              <div className={styles.joinPwTitle}>비밀번호</div>
               <input
                 type="password"
                 className={styles.input}
                 name="password"
-                placeholder="Password"
+                placeholder="비밀번호"
                 value={PW}
                 onChange={(e) => setPW(e.target.value)}
               /><br />
@@ -400,12 +398,12 @@ export default function Join() {
 
           <div className={styles.form_content}>
             <div className="chk_pw">
-              비밀번호 확인<br />
+              <div className={styles.joinChkPwTitle}>비밀번호 확인</div>
               <input
                 type="password"
                 className={styles.input}
                 name="password"
-                placeholder="Password"
+                placeholder="비밀번호 확인"
                 value={Chk_PW}
                 onChange={(e) => setChk_PW(e.target.value)}
               /><br />
@@ -418,12 +416,12 @@ export default function Join() {
 
           <div className={styles.form_content}>
             <div className="name">
-              이름 <br />
+              <div className={styles.joinNameTitle}>이름</div>
               <input
                 type="text"
                 className={styles.input}
                 name="name"
-                placeholder="Username"
+                placeholder="이름"
                 value={Name}
                 onChange={(e) => setName(e.target.value)}
               /><br />
@@ -467,21 +465,21 @@ export default function Join() {
           </div>
 
           <div className={styles.form_content}>
-            닉네임 <br />
-            <div className={styles.nickName}>
+            <div className={styles.joinNickTitle}>닉네임</div>
+            <div className={styles.joinNickName}>
               
               <input
                 type="text"
                 className={styles.input}
                 name="nickName"
-                placeholder="UserNickName"
+                placeholder="닉네임"
                 value={Nickname}
                 onChange={(e) => setNickname(e.target.value)}
               />
               <a
                 className={styles.nickname_search}
                 onClick={nickSearch}
-              >닉네임 중복 확인</a>
+              >중복 확인</a>
               <br />
             </div>
             <div
@@ -494,12 +492,12 @@ export default function Join() {
 
           <div className={styles.form_content}>
             <div className="mobile">
-              핸드폰 번호 <br />
+              <div className={styles.joinMobileTitle}>핸드폰 번호</div>
               <input
                 type="tel"
                 className={styles.input}
                 name="mobile"
-                placeholder="Phone-Number"
+                placeholder="핸드폰 번호"
                 value={Mobile}
                 onChange={(e) => setMobile(e.target.value)}
               /><br />
@@ -512,12 +510,13 @@ export default function Join() {
 
           <div className={styles.form_content}>
             <div className="birth">
-              생년월일<br />
+              <div className={styles.joinBirthTitle}>생년월일</div>
               <input
                 type="date"
                 className={styles.input}
                 name="birthday"
-                value={Birth}
+                  value={Birth}
+                
                 onChange={(e) => setBirth(e.target.value)}
               /><br />
             </div>
@@ -528,13 +527,13 @@ export default function Join() {
           </div>
 
           <div className={styles.form_content}>
-            이메일 <br/>
+            <div className={styles.joinEmailTitle}>이메일</div>
             <div className={styles.email}>
               <input
                 type="text"
                 className={styles.input}
                 name="email"
-                placeholder="Email"
+                placeholder="이메일"
                 value={Email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -553,7 +552,7 @@ export default function Join() {
               <a
                 className={styles.nickname_search}
                 onClick={EmailBox}
-              >이메일 인증</a>
+              >인증</a>
               <br />
             </div>
             <div
@@ -576,7 +575,7 @@ export default function Join() {
 
           <div className={styles.form_content}>
             <div className="univ_wrapper">
-            대학교 <br/>
+            <div className={styles.joinUnivTitle}>대학교</div>
               <div className={styles.univ}>
                 <input
                   type="text"
@@ -625,9 +624,11 @@ export default function Join() {
             type="submit"
             formMethod="post"
             onClick={postInfo}
-          >회원가입</button>
+          >JOIN</button>
         </form>
-        </div>
+        
+      </div>
+      </main>
     </div>
   )
 }

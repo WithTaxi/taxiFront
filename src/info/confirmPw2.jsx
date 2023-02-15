@@ -22,7 +22,7 @@ export default function ConfirmPw() {
     
     axios.post('http://localhost:8080/api/user/checkPassword', {
       password: password,
-    }, { "Content-Type": 'application/json' })
+    }, { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } })
       .then((res) => {
         console.log(res.data);
         if (res.data == 1) {

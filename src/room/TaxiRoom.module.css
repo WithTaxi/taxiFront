@@ -6,48 +6,79 @@
     padding: 0;
 }
 
+
 #wrap{
-    width: 80%;
+    width: 90%;
     height: 100vh;
-    margin-left: 10%;
+    margin-left: 5%;
     display: flex;
 }
 
-#inform{
-    width: 22%;
 
-}
 
 #makeRoom{
     width: 88%;
-    background-color: rgb(248, 249, 249);
     font-family: 'Jua', sans-serif;
 }
 
+#nav{
+    display: flex;
+    margin-left: 70%;
+    background-color: lightblue;
+}
+
+#navInform{
+    border: solid 1px white;
+    margin-right: 20px;
+    background-color: lightblue;
+    color: white;
+    width: 80px;
+}
+
+#navLog{
+    color: lightblue;
+    background-color: white;
+    border: none;
+    width: 80px;
+}
+
+
 #ti{
     width: 100%;
-    margin-left:10%;
-    margin-bottom: 1%;
-    margin-top: 2%;
+    height: 12vh;
+    
+    margin-bottom: 3%;
     display: flex;
+    background-color:lightblue;
     align-items: center;
 }
 
 #ti h2{
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 40px;
+    margin-top: 1%;
+    font-weight: bold;
+    font-size: 35px;
+    color: white;
+    background-color: lightblue;
+    margin-left: 5%;
+    margin-bottom: 1.5%;
+}
+
+h5{
+    background-color: lightblue;
 }
 
 
 #taxiImage{
     width: 5%;
-    height: 10%;
+    height: 80%;
     margin-right: 0.5%;
+    margin-left: 5%;
+    background-color: lightblue;
 }
 
 #my{
     border : 1px solid lightgray;
-    height: 40%;
+    height: 42%;
     width: 90%;
     background-color: rgb(248, 249, 249);
     text-align: center;
@@ -62,18 +93,32 @@
 
 #nick{
     margin-bottom: 5%;
+    background-color: rgb(248, 249, 249);
 }
 
 #button1{
     margin-right: 2%;
+    color: white;
+    background-color: lightblue;
+    width: 90px;
+    height: 30px;
+}
+
+#button2{
+    background-color: white;
+    color: lightblue;
+    width: 90px;
+    height: 30px;
 }
 
 #button1,#button2{
     border-radius: 6px;
+    border: solid 1px;
 }
 
 #college{
     margin-bottom: 5%;
+    background-color: rgb(248, 249, 249);
 }
 
 #list{
@@ -86,7 +131,7 @@
     width: 100%;
     height: 100%;
     border-top:1px solid;
-    
+    background-color: rgb(248, 249, 249);
 }
 
 #my2{
@@ -100,4 +145,64 @@
 
 #button{
     float: right;
+    background-color: white;
 }
+
+#btnPrimary{
+    color: white;
+    border: 1px solid ;
+    height: 100%;
+}
+
+span{
+    color: white;
+    background-color: white;
+    margin-left: 10px;
+}
+
+#enter{
+    background-color: white;
+    border: solid 3px lightblue;
+    color: lightblue;
+    width: 60px;
+}
+
+#app_container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.room_container{
+    width:220px;
+    margin: 16px;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+    border: solid 2px lightblue;
+    background-color: lightblue;
+}
+
+.room_college{
+    width: 100%;
+    height: 50%;
+  }
+
+.room_info{
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lightblue;
+  }
+  
+.room_info h4{
+    margin: 0;
+    background-color: lightblue;
+    color: white;
+  }
+  
+.room_info span{
+    margin-left: 3px;
+    background-color: lightblue
+  }
