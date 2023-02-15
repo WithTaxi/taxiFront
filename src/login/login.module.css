@@ -50,29 +50,43 @@ body{
 }
 
 .id_title{
-  margin-left: 10px;
-  color: grey;
+  /* margin-left: 10px; */
+  font-size: 18px;
+  font-weight: 600;
+  color: black;
 }
 
 .loginId{
   width: 100%;
   height: 50px;
   margin-top: 10px;
-  border: none;
-  background-color: #F4F4F4;
+
+  border-bottom: 1.5px solid #a5a3a3;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+
+  padding: 10px;
+  /* background-color: #F4F4F4; */
 }
 
 .pw_title{
-margin-left: 10px;
-color: grey;
+font-size: 18px;
+  font-weight: 600;
+  color: black;
 }
 
 .loginPw{
   width: 100%;
-  height: 50px;
-  margin-top: 10px;
-  border: none;
-  background-color: #F4F4F4;
+    height: 50px;
+    margin-top: 10px;
+  
+    border-bottom: 1.5px solid #a5a3a3;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  
+    padding: 10px;
 }
 
 .login_btn{

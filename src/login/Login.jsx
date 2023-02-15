@@ -146,7 +146,7 @@ export default function Login() {
       <main className={styles.main_wrapper}>
         <div className={styles.form_wrapper}>
           <form action="/login" method="POST" className={styles.form}/*</div>ref={formRef}*/>
-            <div className={styles.title}>Login</div>
+            <div className={styles.title}>LOGIN</div>
             <div className={styles.id_wrapper}>
               <div className={styles.id_title}>아이디</div>
               <input 
@@ -154,7 +154,7 @@ export default function Login() {
                 name="userId" 
                 value={id}
                 onChange={(e) => setId(e.target.value)}
-                // placeholder="아이디"
+                placeholder="아이디"
                 className={styles.loginId}
                 required
               />
@@ -170,7 +170,7 @@ export default function Login() {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                // placeholder="비밀번호"
+                placeholder="비밀번호"
                 className={styles.loginPw}
                 required
               />
@@ -182,7 +182,7 @@ export default function Login() {
               // type="submit"
               // formMethod="post"
               onClick={postInfo}
-            >Login</button></div>
+            >LOGIN</button></div>
 
             <div className={styles.findWrapper}>
               <span className={styles.chk_wrapper}>
