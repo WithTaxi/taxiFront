@@ -122,11 +122,11 @@ function TaxiRoom() {
         
     }
 
-    useEffect(() => {
-        if (!IsLogin()) {
-            navigate('/login');
-        }
-    }, [IsLogin()]);
+    // useEffect(() => {
+    //     if (!IsLogin()) {
+    //         navigate('/login');
+    //     }
+    // }, [IsLogin()]);
 
         return (
             <>
