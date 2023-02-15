@@ -105,7 +105,7 @@ export default function ChangeInfo() {
       university: univ,
       provider: null,
       providerId: null,
-      }, { "Content-Type": 'application/json' })
+      },  { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } })
     alert('변경 되었습니다.');
     console.log(response);
     window.localStorage.setItem('nickName', nickname);

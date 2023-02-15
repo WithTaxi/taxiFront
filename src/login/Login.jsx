@@ -70,7 +70,7 @@ export default function Login() {
         //로그인 성공 시
       alert("로그인 성공!");
       // console.log(response.data.split(' ')[1]);
-        console.log(response.data.slice(7));
+        console.log(response);
         axios.defaults.headers.common['Authorization'] = response.data;
       
         window.localStorage.setItem("token", response.data.slice(7));
