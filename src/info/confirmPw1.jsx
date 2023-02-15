@@ -19,9 +19,9 @@ export default function ConfirmPw() {
     
     axios.post('http://localhost:8080/api/user/checkPassword', {
       password: password,
-    }, { "Content-Type": 'application/json' })
+    }, { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } }
+    )
       .then((res) => {
-        console.log(res);
         if (res.data === 1) {
           alert('비밀번호가 일치합니다.');
           navigate('/chnInfo');
