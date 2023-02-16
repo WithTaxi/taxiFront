@@ -70,7 +70,7 @@ function TaxiRoom() {
     },[])
       
     const findAllroom=()=>{
-        axios.get('http://localhost:8080/chat/rooms')
+        axios.get('http://localhost:8080/chat/rooms',{headers:{Authorization:`Bearer ${window.localStorage.getItem('token')}`}})
         .then((response) => { 
             setList(response.data); 
             console.log(response.data)
@@ -90,7 +90,7 @@ function TaxiRoom() {
         else{
             var params = new URLSearchParams();
             params.append("name",roomName);
-            axios.post("http://localhost:8080"+'/chat/room', params)
+            axios.post("http://localhost:8080"+'/chat/room', params,{headers:{Authorization:`Bearer ${window.localStorage.getItem('token')}`}})
             .then((response)=>{
                 alert(response.data.roomName+"방 개설에 성공하였습니다.")
                 setRoomName("")
@@ -120,7 +120,7 @@ function TaxiRoom() {
     const deleteRoom=(e)=>{
         console.log(e.roomId)
         if(e.host_id==userId){
-            axios.get("http://localhost:8080/chat/room/delete/"+e.roomId)
+            axios.get("http://localhost:8080/chat/room/delete/"+e.roomId,{headers:{Authorization:`Bearer ${window.localStorage.getItem('token')}`}})
             window.location.reload();
         }
         
