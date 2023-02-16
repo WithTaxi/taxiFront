@@ -113,6 +113,9 @@ function TaxiRoomDetail(props){
                 <ul id={styles.input} className="list-group">
                     {messageList.map((item,idx)=>{return item.id!=null?(item.inMessage==' 님이 입장하셨습니다'?null:<li className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}                
                 </ul>
+                <div id={styles.userList}>
+
+                </div>
 
                 <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
             </div>

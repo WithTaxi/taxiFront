@@ -180,8 +180,8 @@ span{
     color: black;
     border-radius: 5px;
     box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
-    border: solid 2px lightblue;
-    background-color: lightblue;
+    border: solid 2px lightgray;
+    background-color: rgb(192, 223, 234);
 }
 
 .room_college{
@@ -194,16 +194,21 @@ span{
     padding: 20px;
     justify-content: space-between;
     align-items: center;
-    background-color: lightblue;
+    background-color: rgb(192, 223, 234);
   }
   
 .room_info h4{
     margin: 0;
-    background-color: lightblue;
+    background-color: rgb(192, 223, 234);
     color: white;
   }
   
 .room_info span{
     margin-left: 3px;
-    background-color: lightblue
+    background-color: rgb(192, 223, 234);
   }
+
+.userList{
+    width: 100%;
+    height: 50%;
+}
