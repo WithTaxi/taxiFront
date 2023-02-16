@@ -20,6 +20,7 @@ export default function Login() {
   var userInfo = [];
 
 
+  const [token, setToken] = useState('');
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [cookies, setCookie, removeCookie] = useCookies(['cookie']);
@@ -63,16 +64,15 @@ export default function Login() {
           userId: id,
           password: password,
         }, { "Content-Type": 'application/json', withCredentials: true });
-      // axios.defaults.headers.common[
-      //   "Authorization"
-      // ] = 
       
       //response 401: 회원 정보 잘못됨, 400: 정보 없음
       
         //로그인 성공 시
-        alert("로그인 성공!");
-        console.log(response.data.slice(7));
+      alert("로그인 성공!");
+      // console.log(response.data.split(' ')[1]);
+        console.log(response);
         axios.defaults.headers.common['Authorization'] = response.data;
+      
         window.localStorage.setItem("token", response.data.slice(7));
         window.localStorage.setItem("userId", id);
         window.localStorage.setItem("password", password);
@@ -111,26 +111,12 @@ export default function Login() {
 
   }
 
-  // const handleCookie = (userId, password) => {
-  //   setCookie(
-  //       'cookie',
-  //       {
-  //         userId: userId,
-  //         password: password,
-  //       },
-  //       {
-  //         path: '/',
-  //       }
-  //     );
-  // }  
 
   const idFind = (e) => {
-    //window.open("/findId", "findId", "width=500, height=550, top=50, left=200")
     navigate('/findId');
   }
   
   const pwFind = (e) => {
-    //window.open("/findPw", "findPw", "width=600, height=500, top=50, left=200")
     navigate('/findPw');
   }
 
@@ -139,13 +125,15 @@ export default function Login() {
   }
 
   return (
+    <div className={styles.body}>
+
     <div className={styles.main}>
-      <Header />
       <main className={styles.main_wrapper}>
         <div className={styles.form_wrapper}>
-          <div className={styles.join}><Link to="/Join">회원가입</Link></div>
-          <form action="/login" method="POST" /*</div>ref={formRef}*/>
+          <form action="/login" method="POST" className={styles.form}/*</div>ref={formRef}*/>
+            <div className={styles.title}>Login</div>
             <div className={styles.id_wrapper}>
+              <div className={styles.id_title}>아이디</div>
               <input 
                 type="text" 
                 name="userId" 
@@ -160,7 +148,8 @@ export default function Login() {
             
             <br/>
 
-            <div id="pw-wrapper">
+            <div classname={styles.pw_wrapper}>
+              <div className={styles.pw_title}>비밀번호</div>
               <input 
                 type="password" 
                 name="password"
@@ -178,7 +167,7 @@ export default function Login() {
               // type="submit"
               // formMethod="post"
               onClick={postInfo}
-            >Login</button></div>
+            >LOGIN</button></div>
 
             <div className={styles.findWrapper}>
               <span className={styles.chk_wrapper}>
@@ -217,10 +206,13 @@ export default function Login() {
             <div className={styles.naver} ><a href="#">네이버 로그인</a> </div>
             <div className={styles.kakao} onClick={kakaoLogin}><a href="#">카카오 로그인</a> </div>
           </div> */}
+          <div className={styles.join}>아직 회원이 아니신가요? <Link to="/Join">회원가입</Link></div>
           </div>
       </main>
       
-    </div>
+      </div>
+      
+      </div>
   )
 }
 
