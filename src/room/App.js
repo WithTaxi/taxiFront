@@ -4,6 +4,7 @@ import TaxiRoom from './TaxiRoom';
 import TaxiRoomDetail from './TaxiRoomDetail'
 import Login from "../login/Login";
 import Join from "../join/Join";
+import EmailChk from "../join/EmailCheck";
 
 import Find from "../find/selectFind";
 import FindId from "../find/FindId";
@@ -18,6 +19,7 @@ import ChangePw from '../info/changePw';
 
 import ConfirmPw1 from '../info/confirmPw1';
 import ConfirmPw2 from '../info/confirmPw2';
+
 
 
 // import Taxi from './Taxi';
@@ -59,6 +61,7 @@ function App() {
         path="/login"
         element={<Login parentFunction={parentFunction} />}
       ></Route>
+      <Route path='/emailChk' element={<EmailChk />}></Route>
       <Route path='/join' element={<Join />}></Route>
 
       <Route path='/find' element={<Find />}></Route>
