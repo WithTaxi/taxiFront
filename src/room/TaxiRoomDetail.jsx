@@ -95,7 +95,11 @@ function TaxiRoomDetail(props){
         }
     }
 
-    
+    useEffect(() => {
+        if (!IsLogin()) {
+            navigate('/login');
+        }
+    }, [IsLogin()]);
     
 
     return(
