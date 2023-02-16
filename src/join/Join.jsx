@@ -59,7 +59,7 @@ export default function Join() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (location.state !== null) {
+    if (location.state.email !== null) {
       setEmail(location.state.email);
     }
     else {
@@ -296,11 +296,6 @@ export default function Join() {
     setUniv(e.target.innerText);
   }
 
-  useEffect(() => {
-        if (!sessionStorage.getItem('authEmail')) {
-            navigate('/emailChk');
-        }
-    }, [sessionStorage.getItem('authEmail')]);
 
   return (
 

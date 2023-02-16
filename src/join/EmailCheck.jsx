@@ -88,7 +88,7 @@ export default function EmailCheck() {
     e.preventDefault();
     if (code === codeAns) {
       alert("인증 성공하였습니다.");
-      window.sessionStorage.setItem('authEmail', true);
+      console.log(`${email}${postEmail}`)
       navigate('/join', {
         state: {
           email: `${email}${postEmail}`
