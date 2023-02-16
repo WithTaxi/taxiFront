@@ -58,15 +58,15 @@ export default function Join() {
 
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    if (location.state.email !== null) {
-      setEmail(location.state.email);
-    }
-    else {
-      navigate('/emailChk');
-    }
+  // useEffect(() => {
+  //   if (location.state.email !== null) {
+  //     setEmail(location.state.email);
+  //   }
+  //   else {
+  //     navigate('/emailChk');
+  //   }
     
-  }, [location.state]);
+  // }, [location.state]);
 
 
 
