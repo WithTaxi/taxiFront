@@ -36,8 +36,7 @@ export default function FindPw() {
       // setDisable(true);
       alert("임시 비밀번호를 발급하였습니다. 메일함을 확인해주세요.");
       console.log(response);
-      
-      window.close();
+      navigate('/login');      
     }).catch(function (error) {
       alert("error는 " + error);
       console.log(error.response);
