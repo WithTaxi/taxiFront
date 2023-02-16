@@ -148,7 +148,7 @@ export default function Login() {
             
             <br/>
 
-            <div classname={styles.pw_wrapper}>
+            <div className={styles.pw_wrapper}>
               <div className={styles.pw_title}>비밀번호</div>
               <input 
                 type="password" 
@@ -206,7 +206,7 @@ export default function Login() {
             <div className={styles.naver} ><a href="#">네이버 로그인</a> </div>
             <div className={styles.kakao} onClick={kakaoLogin}><a href="#">카카오 로그인</a> </div>
           </div> */}
-          <div className={styles.join}>아직 회원이 아니신가요? <Link to="/Join">회원가입</Link></div>
+          <div className={styles.join}>아직 회원이 아니신가요? <Link to="/EmailChk">회원가입</Link></div>
           </div>
       </main>
       
