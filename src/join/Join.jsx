@@ -59,7 +59,7 @@ export default function Join() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (location.state.email !== null) {
+    if (location.state !== null) {
       setEmail(location.state.email);
     }
     else {
