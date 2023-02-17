@@ -31,7 +31,8 @@ export default function Login() {
   const [pwValid, setPwValid] = useState(false);
   const [idpwOk, setIdPwOk] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
+    console.log(location);
       if (location.state !== null) {
         setId(location.state.id);
         console.log(id);
@@ -131,7 +132,7 @@ export default function Login() {
       <main className={styles.main_wrapper}>
         <div className={styles.form_wrapper}>
           <form action="/login" method="POST" className={styles.form}/*</div>ref={formRef}*/>
-            <div className={styles.title}>Login</div>
+            <div className={styles.title}>LOGIN</div>
             <div className={styles.id_wrapper}>
               <div className={styles.id_title}>아이디</div>
               <input 
