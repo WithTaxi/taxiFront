@@ -112,17 +112,12 @@ export default function Login() {
 
   }
 
-
   const idFind = (e) => {
     navigate('/findId');
   }
   
   const pwFind = (e) => {
     navigate('/findPw');
-  }
-
-  const kakaoLogin = (e) => {
-    window.location.href = `http://localhost:8080/oauth2/authorization/kakao`;
   }
 
   return (

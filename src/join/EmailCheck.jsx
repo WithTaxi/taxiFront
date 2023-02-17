@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 export default function EmailCheck() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [postEmail, setPostEmail] = useState('');
+  const [postEmail, setPostEmail] = useState('@dankook.ac.kr');
   const [authOk, setAuthOk] = useState(false);
   const [codeAns, setCodeAns] = useState('');
   const [code, setCode] = useState('');
@@ -67,6 +67,7 @@ export default function EmailCheck() {
   
 
     params.append('email', `${email}${postEmail}`);
+    console.log(`${email}${postEmail}`);
     alert('인증 번호가 전송되었습니다. 메일함을 확인해주세요.');
     setStyleBox({ visibility: 'visible' })
 

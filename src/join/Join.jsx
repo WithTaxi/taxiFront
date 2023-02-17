@@ -61,6 +61,7 @@ export default function Join() {
   useEffect(() => {
     if (location.state !== null) {
       setEmail(location.state.email);
+      console.log(location.state.email);
     }
     else {
       navigate('/emailChk');
@@ -248,7 +249,7 @@ export default function Join() {
   //닉네임 중복 확인
   function nickSearch(e) {
     e.preventDefault();
-    setNickname(JSON.stringify(Nickname));
+    // setNickname(JSON.stringify(Nickname));
     // setNickname(decodeURI(window.location.pathname));
     const url = encodeURI(`http://localhost:8080/api/user/join/user-nickname/${Nickname}/dup`)
     axios
