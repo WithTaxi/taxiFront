@@ -92,26 +92,48 @@ export default function ChangeInfo() {
 
   async function modifyInfo(e) {
     e.preventDefault();
-    const response = await axios
-      .put('http://localhost:8080/api/user/modifyUserInfo', {
-      userId: id,
-      password: pw,
-      name: name,
-      nickName: nickname,
-      sex: sex,
-      mobile: mobile,
-      birthday: birth,
-      email: email + emailDomain,
-      university: univ,
-      provider: null,
-      providerId: null,
-      },  { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } })
-    alert('변경 되었습니다.');
-    console.log(response);
-    window.localStorage.setItem('nickName', nickname);
-    window.localStorage.setItem('mobile', mobile);
-    window.localStorage.setItem('email', email + emailDomain);
-    window.localStorage.setItem('university', univ);
+    try {
+      const response = await axios
+        .put('http://localhost:8080/api/user/modifyUserInfo', {
+          userId: id,
+          password: pw,
+          name: name,
+          nickName: nickname,
+          sex: sex,
+          mobile: mobile,
+          birthday: birth,
+          email: email + emailDomain,
+          university: univ,
+          provider: null,
+          providerId: null,
+        }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
+      alert('변경 되었습니다.');
+      console.log(response);
+      window.localStorage.setItem('nickName', nickname);
+      window.localStorage.setItem('mobile', mobile);
+      window.localStorage.setItem('email', email + emailDomain);
+      window.localStorage.setItem('university', univ);
+    }
+    catch {
+      const tokenData = {
+          "accessToken": window.localStorage.getItem('accessToken'),
+          "refreshToken": window.localStorage.getItem('refreshToken')
+        }
+          axios
+        .post(`http://localhost:8080/api/user/reissue`, tokenData )
+        .then(response => {
+          console.log(response);
+          window.localStorage.setItem("accessToken", response.data.accessToken);
+          window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+          window.localStorage.setItem("grantType", response.data.grantType);
+          window.localStorage.setItem("refreshToken", response.data.refreshToken);
+          againPost();
+          return;
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
+    }
   }
 
   //이메일 변경 시 이메일 인증
@@ -130,14 +152,67 @@ export default function ChangeInfo() {
       console.log(emailTmp);
       params.append('email', emailTmp);
       const response = await axios
-        .post('http://localhost:8080/api/email/mailConfirm', params, {
-          withCredentials: true,
-        })
+        .post('http://localhost:8080/api/email/mailConfirm', params, { headers: {Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
       console.log(response);
       setAnswerCode(response.data);
     }
-    catch(err) {
+    catch (err) {
+      const tokenData = {
+          "accessToken": window.localStorage.getItem('accessToken'),
+          "refreshToken": window.localStorage.getItem('refreshToken')
+        }
+          axios
+        .post(`http://localhost:8080/api/user/reissue`, tokenData )
+        .then(response => {
+          console.log(response);
+          window.localStorage.setItem("accessToken", response.data.accessToken);
+          window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+          window.localStorage.setItem("grantType", response.data.grantType);
+          window.localStorage.setItem("refreshToken", response.data.refreshToken);
+          againAuth();
+          return;
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
         console.log(err);
+    }
+  }
+
+  //만료된 토큰 갱신하고 다시 보내기
+  function againPost() {
+    axios.put('http://localhost:8080/api/user/modifyUserInfo', {
+      userId: id,
+      password: pw,
+      name: name,
+      nickName: nickname,
+      sex: sex,
+      mobile: mobile,
+      birthday: birth,
+      email: email + emailDomain,
+      university: univ,
+      provider: null,
+      providerId: null,
+    }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } }
+    )
+      .then((res) => {
+        alert('변경되었습니다.');
+          
+      })
+      .catch((error) => { 
+        console.log(error);
+      })
+  }
+
+  async function againAuth() {
+    try {
+      const response = await axios
+        .post('http://localhost:8080/api/email/mailConfirm', params, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
+      console.log(response);
+      setAnswerCode(response.data);
+    }
+    catch (err) {
+      console.log(err);
     }
   }
 

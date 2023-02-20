@@ -19,7 +19,7 @@ export default function ConfirmPw() {
     
     axios.post('http://localhost:8080/api/user/checkPassword', {
       password: password,
-    }, { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } }
+    }, { headers: {Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } }
     )
       .then((res) => {
         if (res.data === 1) {
@@ -31,8 +31,28 @@ export default function ConfirmPw() {
         }
       })
       .catch((error) => {
+        const tokenData = {
+          "accessToken": window.localStorage.getItem('accessToken'),
+          "refreshToken": window.localStorage.getItem('refreshToken')
+        }
+          axios
+        .post(`http://localhost:8080/api/user/reissue`, tokenData )
+        .then(response => {
+          console.log(response);
+          window.localStorage.setItem("accessToken", response.data.accessToken);
+          window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+          window.localStorage.setItem("grantType", response.data.grantType);
+          window.localStorage.setItem("refreshToken", response.data.refreshToken);
+          againPost();
+          return;
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
         console.log(error);
     })
+    
+
 
     // fetch('http://localhost:8080/api/user/checkPassword', {
     //   method: "POST",
@@ -50,6 +70,25 @@ export default function ConfirmPw() {
     //   }).catch(err => {
     //     console.log(err);
     // })
+  }
+
+  function againPost() {
+    axios.post('http://localhost:8080/api/user/checkPassword', {
+      password: password,
+    }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } }
+    )
+      .then((res) => {
+        if (res.data === 1) {
+          alert('비밀번호가 일치합니다.');
+          navigate('/chnInfo');
+        }
+        else {
+          alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
+        }
+      })
+      .catch((error) => { 
+        console.log(error);
+      })
   }
   return (
     <div className={styles.main_wrapper}>

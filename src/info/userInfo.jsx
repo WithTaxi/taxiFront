@@ -14,7 +14,7 @@ export default function UserInfo() {
 
     if (window.confirm("정말 탈퇴하시겠습니까?ㅜㅜ")) {
       axios.delete('http://localhost:8080/api/user/withdrawal', {
-        withCredentials: true,
+        headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` }
       })
       .then((response) => {
         console.log(response);
@@ -23,9 +23,45 @@ export default function UserInfo() {
           navigate('/login');
           window.localStorage.clear();
         }
+      }).catch((err) => {
+        const tokenData = {
+          "accessToken": window.localStorage.getItem('accessToken'),
+          "refreshToken": window.localStorage.getItem('refreshToken')
+        }
+          axios
+        .post(`http://localhost:8080/api/user/reissue`, tokenData )
+        .then(response => {
+          console.log(response);
+          window.localStorage.setItem("accessToken", response.data.accessToken);
+          window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+          window.localStorage.setItem("grantType", response.data.grantType);
+          window.localStorage.setItem("refreshToken", response.data.refreshToken);
+          againDelete();
+          return;
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
+        console.log(err);
       })
     }
     
+  }
+
+  function againDelete() {
+    axios.delete('http://localhost:8080/api/user/withdrawal', {
+      headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` }
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.data == 1) {
+          alert('탈퇴 되었습니다.');
+          navigate('/login');
+          window.localStorage.clear();
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
   }
   
   return (

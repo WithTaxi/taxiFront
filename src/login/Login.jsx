@@ -32,10 +32,8 @@ export default function Login() {
   const [idpwOk, setIdPwOk] = useState(false);
 
   useEffect(() => {
-    console.log(location);
       if (location.state !== null) {
         setId(location.state.id);
-        console.log(id);
       }
       else {
         setId('');
@@ -71,15 +69,21 @@ export default function Login() {
         //로그인 성공 시
       alert("로그인 성공!");
       // console.log(response.data.split(' ')[1]);
-        console.log(response);
-        axios.defaults.headers.common['Authorization'] = response.data;
+      console.log(response);
+      axios.defaults.headers.common['Authorization'] = response.data.grantType + ' ' + response.data.accessToken;
+      axios.defaults.headers.common['RefreshToken'] = response.data.refreshToken;
       
-        window.localStorage.setItem("token", response.data.slice(7));
-        window.localStorage.setItem("userId", id);
-        window.localStorage.setItem("password", password);
-        setLogged(true);
-        console.log(logged);
-        getInfo();
+      window.localStorage.setItem("grantType", response.data.grantType);
+      window.localStorage.setItem("accessToken", response.data.accessToken);
+      window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+      window.localStorage.setItem("refreshToken", response.data.refreshToken);
+
+      window.localStorage.setItem("userId", id);
+      window.localStorage.setItem("password", password);
+
+      setLogged(true);
+      console.log(logged);
+      getInfo();
         
       } catch (error) {
       console.log(error.response.status);
@@ -95,7 +99,7 @@ export default function Login() {
   async function getInfo() {
     await axios.get('http://localhost:8080/api/user/info')
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.accessToken);
         window.localStorage.setItem("name", res.data["userId"]);
         window.localStorage.setItem("name", res.data["name"]);
         window.localStorage.setItem("sex", res.data["sex"]);
