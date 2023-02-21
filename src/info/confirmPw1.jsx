@@ -18,38 +18,49 @@ export default function ConfirmPw() {
     e.preventDefault();
     
     axios.post('http://localhost:8080/api/user/checkPassword', {
-      password: password,
+      password: JSON.stringify(password),
     }, { headers: {Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } }
     )
       .then((res) => {
+        console.log(res);
         if (res.data === 1) {
           alert('비밀번호가 일치합니다.');
           navigate('/chnInfo');
-        }
-        else {
+        }else if (res.data === 0){
           alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
         }
+        
       })
       .catch((error) => {
-        const tokenData = {
-          "accessToken": window.localStorage.getItem('accessToken'),
-          "refreshToken": window.localStorage.getItem('refreshToken')
-        }
+        if (error.response.data == '만료된 토큰') {
+          console.log(typeof error.response.data);
+          const tokenData = {
+            "accessToken": window.localStorage.getItem('accessToken'),
+            "refreshToken": window.localStorage.getItem('refreshToken')
+          }
           axios
-        .post(`http://localhost:8080/api/user/reissue`, tokenData )
-        .then(response => {
-          console.log(response);
-          window.localStorage.setItem("accessToken", response.data.accessToken);
-          window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
-          window.localStorage.setItem("grantType", response.data.grantType);
-          window.localStorage.setItem("refreshToken", response.data.refreshToken);
-          againPost();
-          return;
-        })
-        .catch(function (err) {
-          console.log(err);
-        })
-        console.log(error);
+            .post(`http://localhost:8080/api/user/reissue`, tokenData)
+            .then(response => {
+              console.log(response);
+              window.localStorage.setItem("accessToken", response.data.accessToken);
+              window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+              window.localStorage.setItem("grantType", response.data.grantType);
+              window.localStorage.setItem("refreshToken", response.data.refreshToken);
+              againPost();
+              return;
+            })
+            .catch(function (err) {
+              if (err.response.data == '유효하지 않은 토큰입니다') {
+                alert('로그인을 다시 진행해주세요.');
+                navigate('/login');
+                window.localStorage.clear();
+                console.log(err);
+                return;
+              }
+              console.log(err);
+            })
+          console.log(error);
+        }
     })
     
 
@@ -78,6 +89,7 @@ export default function ConfirmPw() {
     }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } }
     )
       .then((res) => {
+        console.log(res);
         if (res.data === 1) {
           alert('비밀번호가 일치합니다.');
           navigate('/chnInfo');

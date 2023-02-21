@@ -34,6 +34,7 @@ export default function ConfirmPw() {
         }
       })
       .catch((error) => {
+        if(error.response.data == '만료된 토큰'){
         const tokenData = {
           "accessToken": window.localStorage.getItem('accessToken'),
           "refreshToken": window.localStorage.getItem('refreshToken')
@@ -50,9 +51,17 @@ export default function ConfirmPw() {
           return;
         })
         .catch(function (err) {
+          if (err.response.data == '유효하지 않은 토큰입니다') {
+            alert('로그인을 다시 진행해주세요.');
+            navigate('/login');
+            window.localStorage.clear();
+            console.log(err);
+            return;
+          }
           console.log(err);
         })
         console.log(error);
+      }
     })
 
     // fetch('http://localhost:8080/api/user/checkPassword', {
