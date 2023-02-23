@@ -24,8 +24,6 @@ function TaxiRoom() {
     const forceUpdate = React.useCallback(() => updateState({}), []);
     
 
-
-
     const login = () => {
         navigate('/login');
     }
@@ -185,7 +183,7 @@ function TaxiRoom() {
     const deleteRoom=(e)=>{
         console.log(e.roomId)
         if(e.host_id==userId){
-            axios.get("http://localhost:8080/chat/room/delete/"+e.roomId,{headers:{Authorization:`Bearer ${window.localStorage.getItem('token')}`}})
+            axios.get("http://localhost:8080/chat/room/delete/"+e.roomId,{ headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
             window.location.reload();
         }
         
