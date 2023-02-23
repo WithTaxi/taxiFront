@@ -111,6 +111,7 @@ function TaxiRoom() {
     const enterRoom=(e)=>{
         localStorage.setItem('roomId',e.roomId);
         localStorage.setItem('sender',nick);
+        console.log(e.userCount)
         if(e.userCount<=4){
             document.location.href="/TaxiRoomDetail/"+e.roomName
         }
@@ -138,8 +139,8 @@ function TaxiRoom() {
                 <div id={styles.ti}>
                     <h2 onClick={newRoom}>Taxi <>Ride Together</></h2>
                     <div id={styles.nav}>
-                        <button id={styles.navInform}>내정보</button>     
-                        <button id={styles.navLog}>로그아웃</button>
+                        <button id={styles.navInform} onClick={clickInfo}>내정보</button>     
+                        <button id={styles.navLog} onClick={logout}>로그아웃</button>
                     </div>
                 </div>
                 <div id={styles.wrap}>
@@ -173,14 +174,11 @@ function TaxiRoom() {
                     
                     </div>
                     <div id={styles.makeRoom}>
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <label className="input-group-text">방제목</label>
-                            </div>
-                            <input type="text" className="form-control" value={roomName} onChange={onChange} onKeyDown={onKeyPress} />
-                            <div >
-                                <button className="btn btn-primary" id={styles.btnPrimary} type="button" onClick={() => (createRoom(), AddList())}>채팅방 개설</button>
-                            </div>
+                        <div id={styles.input_group}>
+                            <label id={styles.label}>방제목</label>
+                            <input id={styles.inputText} type="text"  value={roomName} onChange={onChange} onKeyDown={onKeyPress} />
+                            <button  id={styles.btnPrimary} type="button" onClick={() => (createRoom(), AddList())}>채팅방 개설</button>
+                            
                         </div>
                         <div id={styles.app_container}>
                             {
@@ -191,6 +189,7 @@ function TaxiRoom() {
                                         enterRoom={enterRoom}
                                         title={item.roomName}
                                         userCount={item.userCount}
+                                        deleteRoom={deleteRoom}
                                     />
                                     )
                                 })
