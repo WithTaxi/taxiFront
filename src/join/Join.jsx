@@ -4,15 +4,15 @@ import axios from 'axios';
 import styles from './join.module.css';
 import 'url-search-params-polyfill';
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 
 
 export default function Join() {
+  const location = useLocation();
 
   const navigate = useNavigate();
   const [style, setStyle] = useState({ display: 'none' })
-  const [EmailStyle, setEmailStyle] = useState({ display: 'none' });
 
   //유효성 검사
   const [idOK, setIdOK] = useState(true)
@@ -23,7 +23,7 @@ export default function Join() {
   const [NicknameOK, setNicknameOK] = useState(true)
   const [MobileOK, setMobileOK] = useState(true)
   const [BirthOK, setBirthOK] = useState(true)
-  const [EmailOK, setEmailOK] = useState(true)
+  // const [EmailOK, setEmailOK] = useState(true)
   const [UnivOK, setUnivOK] = useState(true)
 
   //기본 정보
@@ -34,9 +34,10 @@ export default function Join() {
   const [Name, setName] = useState('');
   const [Sex, setSex] = useState('');
   const [Nickname, setNickname] = useState('');
+  const [Email, setEmail] = useState('');
   const [Mobile, setMobile] = useState('');
   const [Birth, setBirth] = useState('');
-  var [Email, setEmail] = useState('');
+  // var [Email, setEmail] = useState('');
   const [Univ, setUniv] = useState('');
 
   const [UnivNum, setUnivNum] = useState('1');
@@ -51,14 +52,23 @@ export default function Join() {
   const [NicknameMsg, setNicknameMsg] = useState('')
   const [MobileMsg, setMobileMsg] = useState('')
   const [BirthMsg, setBirthMsg] = useState('')
-  const [EmailMsg, setEmailMsg] = useState('')
   const [UnivMsg, setUnivMsg] = useState('')
 
-  const [EmailCode, setEmailCode] = useState('');
-  const [EmailAnswer, setEmailAnswer] = useState('');
 
 
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (location.state !== null) {
+      setEmail(location.state.email);
+      console.log(location.state.email);
+    }
+    else {
+      navigate('/emailChk');
+    }
+    
+  }, [location.state]);
+
 
 
   useEffect(() => {
@@ -184,17 +194,6 @@ export default function Join() {
     }
   }, [Birth]);
 
-  //이메일
-  useEffect(() => {
-    if (Email === '') {
-      setEmailMsg('필수 정보입니다.');
-      setEmailOK(true);
-    }
-    else {
-      setEmailOK(false);
-    }
-  }, [Email]);
-
 
   //대학교
   useEffect(() => {
@@ -231,7 +230,7 @@ export default function Join() {
           sex: Sex,
           mobile: Mobile,
           birthday: Birth,
-          email: Email + inputRef.current[UnivNum - 1].innerText,
+          email: Email,
           university: Univ,
           provider: null,
           providerId: null,
@@ -246,55 +245,15 @@ export default function Join() {
     alert("끝");
   }
     
-  //이메일 인증 코드 일치 확인
-  function EmailAuth(e) {
-    e.preventDefault();
-
-    if (JSON.stringify(EmailCode) === EmailAnswer) {
-      alert("인증 완료되었습니다.");
-    }
-    else {
-      alert("인증 번호가 다릅니다.");
-      setEmailCode("");
-    }
-
-  }
-
-  //이메일 인증 코드 보내기
-  var params = new URLSearchParams();
-  
-  function EmailBox(e) {
-    if (Email === "") {
-      alert("이메일을 입력해주세요.");
-      return;
-    }
-    setEmailStyle({ style: "display" });
-
-    Email += inputRef.current[UnivNum - 1].innerText
-    console.log(Email);
-    params.append('email', Email);
-    
-    e.preventDefault();
-    axios.post('http://localhost:8080/api/email/mailConfirm', params, {
-      withCredentials: true,
-    })
-      .then((response) => {
-        setEmailAnswer(JSON.stringify(response.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  var sendNick = JSON.stringify({
-    "Nickname": Nickname,
-  })
 
   //닉네임 중복 확인
   function nickSearch(e) {
     e.preventDefault();
+    // setNickname(JSON.stringify(Nickname));
+    // setNickname(decodeURI(window.location.pathname));
+    const url = encodeURI(`http://localhost:8080/api/user/join/user-nickname/${Nickname}/dup`)
     axios
-      .get(`http://localhost:8080/api/user/join/user-id/${Nickname}/dup`)
+      .get(url)
       .then(response => {
         if (response.data) {
           alert("사용할 수 없는 닉네임입니다. 다시 입력해주세요.");
@@ -309,7 +268,6 @@ export default function Join() {
         alert('error 발생')
         console.log(err);
       })
-    // console.log('닉네임 중복 확인을 완료했습니다.');
   }
 
   //아이디 중복 확인
@@ -339,11 +297,6 @@ export default function Join() {
     setUniv(e.target.innerText);
   }
 
-  function emailChange(e) {
-    setUnivNum(e.target.value);
-    // setEmail(Email + inputRef.current[UnivNum - 1].innerText);
-    // console.log(Email);
-  }
 
   return (
 
@@ -526,53 +479,7 @@ export default function Join() {
             >{BirthMsg }</div>
           </div>
 
-          <div className={styles.form_content}>
-            <div className={styles.joinEmailTitle}>이메일</div>
-            <div className={styles.email}>
-              <input
-                type="text"
-                className={styles.input}
-                name="email"
-                placeholder="이메일"
-                value={Email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <select
-                className={styles.emailSelect}
-                defaultValue={UnivNum}
-                onChange={emailChange}
-                ref={inputRef}
-              >
-                <option className="emailOp" value="1" onClick={(e) => setUnivNum(e.target.value)}>@dankook.ac.kr</option>
-                <option className="emailOp" value="2" onClick={(e) => setUnivNum(e.target.value)}>@catholic.ac.kr</option>
-                <option className="emailOp" value="3" onClick={(e) => setUnivNum(e.target.value)}>@gachon.ac.kr</option>
-                <option className="emailOp" value="4" onClick={(e) => setUnivNum(e.target.value)}>@snu.ac.kr</option>
-              </select>
-
-              <a
-                className={styles.nickname_search}
-                onClick={EmailBox}
-              >인증</a>
-              <br />
-            </div>
-            <div
-              className={styles.empty_err}
-              style={{visibility: EmailOK ? 'visible' : 'hidden'}}
-            >필수 정보입니다.</div>
-          </div>
-
-          <div style={EmailStyle}>
-            <input
-              value={EmailCode}
-              className={styles.emailAuth_input}
-              onChange={(e) => setEmailCode(e.target.value)}
-            />
-            <button
-              className={styles.email_auth}
-              onClick={EmailAuth}
-            >인증</button>
-          </div>
-
+          
           <div className={styles.form_content}>
             <div className="univ_wrapper">
             <div className={styles.joinUnivTitle}>대학교</div>
