@@ -31,10 +31,52 @@ function TaxiRoomDetail(props){
     }
 
     const get=()=>{
-        axios.get("http://localhost:8080/chat/rooms/"+roomId)
+        axios.get("http://localhost:8080/chat/rooms/"+roomId, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
             .then((response)=>{
                 setRoom(response.data.roomName)
                 console.log(room)
+            })
+        .catch((error) => {
+        if (error.response.data == '만료된 토큰') {
+          console.log(typeof error.response.data);
+          const tokenData = {
+            "accessToken": window.localStorage.getItem('accessToken'),
+            "refreshToken": window.localStorage.getItem('refreshToken')
+          }
+          axios
+            .post(`http://localhost:8080/api/user/reissue`, tokenData)
+            .then(response => {
+              console.log(response);
+              window.localStorage.setItem("accessToken", response.data.accessToken);
+              window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+              window.localStorage.setItem("grantType", response.data.grantType);
+              window.localStorage.setItem("refreshToken", response.data.refreshToken);
+              againPost();
+              return;
+            })
+            .catch(function (err) {
+              if (err.response.data == '유효하지 않은 토큰입니다') {
+                alert('로그인을 다시 진행해주세요.');
+                navigate('/login');
+                window.localStorage.clear();
+                console.log(err);
+                return;
+              }
+              console.log(err);
+            })
+          console.log(error);
+        }
+    })
+    }
+
+    const againPost = () => {
+        axios.get("http://localhost:8080/chat/rooms/" + roomId, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
+            .then((response) => {
+                setRoom(response.data.roomName)
+                console.log(room)
+            })
+            .catch((error) => {
+                console.log(error);
             })
     }
 
