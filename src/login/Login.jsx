@@ -72,9 +72,9 @@ export default function Login() {
       alert("로그인 성공!");
       // console.log(response.data.split(' ')[1]);
         console.log(response);
-        axios.defaults.headers.common['Authorization'] = response.data;
+        axios.defaults.headers.common['Authorization'] = "Bearer "+response.data.accessToken;
       
-        window.localStorage.setItem("token", response.data.slice(7));
+        window.localStorage.setItem("token", response.data.accessToken);
         window.localStorage.setItem("userId", id);
         window.localStorage.setItem("password", password);
         setLogged(true);
@@ -82,7 +82,7 @@ export default function Login() {
         getInfo();
         
       } catch (error) {
-      console.log(error.response.status);
+      //console.log(error.response.status);
       alert(`로그인 실패!
 정보를 다시 확인해주세요.`);
       setId('');
@@ -95,7 +95,7 @@ export default function Login() {
   async function getInfo() {
     await axios.get('http://localhost:8080/api/user/info')
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.accessToken);
         window.localStorage.setItem("name", res.data["userId"]);
         window.localStorage.setItem("name", res.data["name"]);
         window.localStorage.setItem("sex", res.data["sex"]);

@@ -12,8 +12,8 @@ export default function Room({title,userCount,enterRoom,item,deleteRoom}){
                 
             </div>
             <div className={styles.buttonWrapper}>
-                <button className={styles.enter} onClick={()=>{enterRoom(item)}}>입장</button>
-                <button className={styles.delete} onClick={()=>{deleteRoom(item)}}>삭제</button>
+                <button className={styles.navInform} onClick={()=>{enterRoom(item)}}>입장</button>
+                <button className={styles.navLog} onClick={()=>{deleteRoom(item)}}>삭제</button>
                     
             </div>
         </div>

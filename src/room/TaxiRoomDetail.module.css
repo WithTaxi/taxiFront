@@ -1,7 +1,73 @@
-#out{
-    float:right
+wrapper{
+    height: 100%;
+    overflow:hidden;
+    position: fixed;
+    display: flex;
 }
 
-#input{
-    width: 70%
+#left{
+    width: 75%;
+    height: 100vh;
+    float: left;
+    margin-left: 5%;
+}
+
+#right{
+    width: 15%;
+    float: left;
+}
+
+#out{
+    margin-left: 50%;
+    color: white;
+}
+
+#contentWrapper{
+    height: 94vh;
+    background-color: white;
+    overflow: scroll;
+}
+
+#listWrap{
+    border: none;
+}
+
+#userList{
+    border: 1px solid lightgray;
+    margin-top: 15%;
+    margin-left: 15%;
+    height: 50vh;
+    background-color: white;
+}
+
+#label{
+    display: flex;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 5vh;
+    width: 60px;
+    background-color:lightgray ;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#inputText{
+    width: 90%;
+    height: 5vh;
+    border: 1px solid lightgray;
+}
+
+#btnPrimary{
+    background-color: #3474B3;
+    color: white;
+    border: 1px solid ;
+    height: 5vh;
+    width: 80px;
+    margin-left: -3px;
+    border-radius: 5px;
+}
+
+#input_group{
+    display: flex;
 }
