@@ -191,6 +191,7 @@ function TaxiRoom() {
                                         enterRoom={enterRoom}
                                         title={item.roomName}
                                         userCount={item.userCount}
+                                        deleteRoom={deleteRoom}
                                     />
                                     )
                                 })

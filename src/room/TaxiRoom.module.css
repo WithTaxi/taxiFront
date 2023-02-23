@@ -181,11 +181,12 @@ span{
     box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
     border: solid 2px lightgray;
     background-color: rgb(192, 223, 234);
+    height: 50%;
 }
 
 .room_college{
     width: 100%;
-    height: 50%;
+    height: 40%;
   }
 
 .room_info{
@@ -210,4 +211,10 @@ span{
 .userList{
     width: 100%;
     height: 50%;
+}
+
+.buttonWrapper{
+    text-align: center;
+    width: 100%;
+    height: 10%;
 }
