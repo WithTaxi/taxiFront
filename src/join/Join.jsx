@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Header from '../components/headerForm';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import styles from './join.module.css';
 import 'url-search-params-polyfill';
-
-import { Link, useNavigate, useLocation } from "react-router-dom";
-
 
 
 export default function Join() {
@@ -23,7 +20,6 @@ export default function Join() {
   const [NicknameOK, setNicknameOK] = useState(true)
   const [MobileOK, setMobileOK] = useState(true)
   const [BirthOK, setBirthOK] = useState(true)
-  // const [EmailOK, setEmailOK] = useState(true)
   const [UnivOK, setUnivOK] = useState(true)
 
   //기본 정보
@@ -58,6 +54,7 @@ export default function Join() {
 
   const inputRef = useRef(null);
 
+  //이메일 인증 하지 않았을 경우 이메일 인증 창으로 이동
   useEffect(() => {
     if (location.state !== null) {
       setEmail(location.state.email);
@@ -242,18 +239,15 @@ export default function Join() {
     } catch (error) {
       console.log(error);
     }
-    alert("끝");
   }
     
 
   //닉네임 중복 확인
   function nickSearch(e) {
     e.preventDefault();
-    // setNickname(JSON.stringify(Nickname));
-    // setNickname(decodeURI(window.location.pathname));
-    const url = encodeURI(`http://localhost:8080/api/user/join/user-nickname/${Nickname}/dup`)
+    
     axios
-      .get(url)
+      .get(`http://localhost:8080/api/user/join/user-nickname/${Nickname}/dup`)
       .then(response => {
         if (response.data) {
           alert("사용할 수 없는 닉네임입니다. 다시 입력해주세요.");
@@ -291,7 +285,7 @@ export default function Join() {
     // console.log('아이디 중복 확인을 완료했습니다.');
   }
 
-  
+  //대학교 드롭다운 선택
   function univSelect(e) {
     setUnivNum(e.target.id);
     setUniv(e.target.innerText);

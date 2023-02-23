@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 import axios from 'axios';
 import Header from '../components/headerForm';
 import modules from './userInfo.module.css';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './changeInfo.module.css';
 import IsLogin from '../utils/isLogin';
@@ -10,6 +11,7 @@ import IsLogin from '../utils/isLogin';
 axios.defaults.withCredentials = true;
 
 export default function ChangeInfo() {
+  const navigate = useNavigate();
   const [id, setId] = useState(window.localStorage.getItem('userId') || '');
   const [pw, setPw] = useState(window.localStorage.getItem('password') || '');
   const [name, setName] = useState(window.localStorage.getItem('name') || '');
@@ -92,26 +94,59 @@ export default function ChangeInfo() {
 
   async function modifyInfo(e) {
     e.preventDefault();
-    const response = await axios
-      .put('http://localhost:8080/api/user/modifyUserInfo', {
-      userId: id,
-      password: pw,
-      name: name,
-      nickName: nickname,
-      sex: sex,
-      mobile: mobile,
-      birthday: birth,
-      email: email + emailDomain,
-      university: univ,
-      provider: null,
-      providerId: null,
-      },  { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } })
-    alert('변경 되었습니다.');
-    console.log(response);
-    window.localStorage.setItem('nickName', nickname);
-    window.localStorage.setItem('mobile', mobile);
-    window.localStorage.setItem('email', email + emailDomain);
-    window.localStorage.setItem('university', univ);
+    try {
+      const response = await axios
+        .put('http://localhost:8080/api/user/modifyUserInfo', {
+          userId: id,
+          password: pw,
+          name: name,
+          nickName: nickname,
+          sex: sex,
+          mobile: mobile,
+          birthday: birth,
+          email: email + emailDomain,
+          university: univ,
+          provider: null,
+          providerId: null,
+        }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
+      alert('변경 되었습니다.');
+      console.log(response);
+      window.localStorage.setItem('nickName', nickname);
+      window.localStorage.setItem('mobile', mobile);
+      window.localStorage.setItem('email', email + emailDomain);
+      window.localStorage.setItem('university', univ);
+    }
+    catch(error) {
+      if (error.response.data == '만료된 토큰') {
+          console.log(typeof error.response.data);
+          const tokenData = {
+            "accessToken": window.localStorage.getItem('accessToken'),
+            "refreshToken": window.localStorage.getItem('refreshToken')
+          }
+          axios
+            .post(`http://localhost:8080/api/user/reissue`, tokenData)
+            .then(response => {
+              console.log(response);
+              window.localStorage.setItem("accessToken", response.data.accessToken);
+              window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+              window.localStorage.setItem("grantType", response.data.grantType);
+              window.localStorage.setItem("refreshToken", response.data.refreshToken);
+              againPost();
+              return;
+            })
+            .catch(function (err) {
+              if (err.response.data == '유효하지 않은 토큰입니다') {
+                alert('로그인을 다시 진행해주세요.');
+                navigate('/login');
+                window.localStorage.clear();
+                console.log(err);
+                return;
+              }
+              console.log(err);
+            })
+          console.log(error);
+        }
+    }
   }
 
   //이메일 변경 시 이메일 인증
@@ -130,16 +165,79 @@ export default function ChangeInfo() {
       console.log(emailTmp);
       params.append('email', emailTmp);
       const response = await axios
-        .post('http://localhost:8080/api/email/mailConfirm', params, {
-          withCredentials: true,
-        })
+        .post('http://localhost:8080/api/email/mailConfirm', params, { headers: {Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
       console.log(response);
       setAnswerCode(response.data);
     }
-    catch(err) {
-        console.log(err);
+    catch (error) {
+      if (error.response.data == '만료된 토큰') {
+          console.log(typeof error.response.data);
+          const tokenData = {
+            "accessToken": window.localStorage.getItem('accessToken'),
+            "refreshToken": window.localStorage.getItem('refreshToken')
+          }
+          axios
+            .post(`http://localhost:8080/api/user/reissue`, tokenData)
+            .then(response => {
+              console.log(response);
+              window.localStorage.setItem("accessToken", response.data.accessToken);
+              window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+              window.localStorage.setItem("grantType", response.data.grantType);
+              window.localStorage.setItem("refreshToken", response.data.refreshToken);
+              againPost();
+              return;
+            })
+            .catch(function (err) {
+              if (err.response.data == '유효하지 않은 토큰입니다') {
+                alert('로그인을 다시 진행해주세요.');
+                navigate('/login');
+                window.localStorage.clear();
+                console.log(err);
+                return;
+              }
+              console.log(err);
+            })
+          console.log(error);
+        }
     }
   }
+
+  //만료된 토큰 갱신하고 다시 보내기
+  function againPost() {
+    axios.put('http://localhost:8080/api/user/modifyUserInfo', {
+      userId: id,
+      password: pw,
+      name: name,
+      nickName: nickname,
+      sex: sex,
+      mobile: mobile,
+      birthday: birth,
+      email: email + emailDomain,
+      university: univ,
+      provider: null,
+      providerId: null,
+    }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } }
+    )
+      .then((res) => {
+        alert('변경되었습니다.');
+          
+      })
+      .catch((error) => { 
+        console.log(error);
+      })
+  }
+
+  // async function againAuth() {
+  //   try {
+  //     const response = await axios
+  //       .post('http://localhost:8080/api/email/mailConfirm', params, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
+  //     console.log(response);
+  //     setAnswerCode(response.data);
+  //   }
+  //   catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   const univArray = ['@dankook.ac.kr', '@catholic.ac.kr', '@gachon.ac.kr', '@snu.ac.kr'];
 

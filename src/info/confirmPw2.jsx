@@ -14,15 +14,15 @@ export default function ConfirmPw() {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const formRef = useRef();
-  // var params = new URLSearchParams();
-  // params.append('password', password);
+  
+  //비밀번호 일치 여부 확인
   function chkPw(e) {
     console.log(password);
     e.preventDefault();
     
     axios.post('http://localhost:8080/api/user/checkPassword', {
       password: password,
-    }, { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } })
+    }, { headers: {Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
       .then((res) => {
         console.log(res.data);
         if (res.data == 1) {
@@ -34,7 +34,34 @@ export default function ConfirmPw() {
         }
       })
       .catch((error) => {
+        if(error.response.data == '만료된 토큰'){
+        const tokenData = {
+          "accessToken": window.localStorage.getItem('accessToken'),
+          "refreshToken": window.localStorage.getItem('refreshToken')
+        }
+          axios
+        .post(`http://localhost:8080/api/user/reissue`, tokenData )
+        .then(response => {
+          console.log(response);
+          window.localStorage.setItem("accessToken", response.data.accessToken);
+          window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+          window.localStorage.setItem("grantType", response.data.grantType);
+          window.localStorage.setItem("refreshToken", response.data.refreshToken);
+          againPost();
+          return;
+        })
+        .catch(function (err) {
+          if (err.response.data == '유효하지 않은 토큰입니다') {
+            alert('로그인을 다시 진행해주세요.');
+            navigate('/login');
+            window.localStorage.clear();
+            console.log(err);
+            return;
+          }
+          console.log(err);
+        })
         console.log(error);
+      }
     })
 
     // fetch('http://localhost:8080/api/user/checkPassword', {
@@ -53,6 +80,25 @@ export default function ConfirmPw() {
     //   }).catch(err => {
     //     console.log(err);
     // })
+  }
+
+  function againPost() {
+    axios.post('http://localhost:8080/api/user/checkPassword', {
+      password: password,
+    }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } }
+    )
+      .then((res) => {
+        if (res.data === 1) {
+          alert('비밀번호가 일치합니다.');
+          navigate('/chnPw');
+        }
+        else {
+          alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
+        }
+      })
+      .catch((error) => { 
+        console.log(error);
+      })
   }
   return (
     <div className={styles.main_wrapper}>

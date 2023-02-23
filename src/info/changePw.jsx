@@ -45,22 +45,73 @@ export default function ChangePw() {
 
 
   async function changePw(e) {
-    e.preventDefault();
-    if (newPw === chkNewPw) {
-      const response = await axios
-        .put("http://localhost:8080/api/user/modifyPassword", {
-          password: newPw
-        },  { headers: {Authorization: `Bearer ${window.localStorage.getItem('token')}` } })
-      console.log(response);
-      if (response.data == 1) {
-        window.localStorage.setItem('password', newPw);
-        alert('비밀번호 변경이 완료되었습니다!');
-        navigate('/login');
+    try {
+      e.preventDefault();
+      if (newPw === chkNewPw) {
+        const response = await axios
+          .put("http://localhost:8080/api/user/modifyPassword", {
+            password: newPw
+          }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
+        console.log(response);
+        if (response.data == 1) {
+          window.localStorage.setItem('password', newPw);
+          alert('비밀번호 변경이 완료되었습니다!');
+          navigate('/login');
+        }
+      }
+      else {
+        alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
       }
     }
-    else {
-      alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+    catch (error) {
+      if (error.response.data == '만료된 토큰') {
+          console.log(typeof error.response.data);
+          const tokenData = {
+            "accessToken": window.localStorage.getItem('accessToken'),
+            "refreshToken": window.localStorage.getItem('refreshToken')
+          }
+          axios
+            .post(`http://localhost:8080/api/user/reissue`, tokenData)
+            .then(response => {
+              console.log(response);
+              window.localStorage.setItem("accessToken", response.data.accessToken);
+              window.localStorage.setItem("accessTokenExpireData", response.data.accessTokenExpireData);
+              window.localStorage.setItem("grantType", response.data.grantType);
+              window.localStorage.setItem("refreshToken", response.data.refreshToken);
+              againPost();
+              return;
+            })
+            .catch(function (err) {
+              if (err.response.data == '유효하지 않은 토큰입니다') {
+                alert('로그인을 다시 진행해주세요.');
+                navigate('/login');
+                window.localStorage.clear();
+                console.log(err);
+                return;
+              }
+              console.log(err);
+            })
+        }
+      console.log(error);
     }
+  }
+
+  async function againPost() {
+      if (newPw === chkNewPw) {
+        const response = await axios
+          .put("http://localhost:8080/api/user/modifyPassword", {
+            password: newPw
+          }, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
+        console.log(response);
+        if (response.data == 1) {
+          window.localStorage.setItem('password', newPw);
+          alert('비밀번호 변경이 완료되었습니다!');
+          navigate('/login');
+        }
+      }
+      else {
+        alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+      }
   }
 
   return (
