@@ -86,7 +86,7 @@ export default function Login() {
       getInfo();
         
       } catch (error) {
-      console.log(error.response.status);
+      //console.log(error.response.status);
       alert(`로그인 실패!
 정보를 다시 확인해주세요.`);
       setId('');

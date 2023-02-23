@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useState,useEffect,useRef } from "react";
 import { useNavigate} from 'react-router-dom';
@@ -103,25 +104,35 @@ function TaxiRoomDetail(props){
     
 
     return(
-        <>
-            <div className="container">
-                <div id={styles.input} className="input-group">
-                    <div className="input-group-prepend">
-                        <label className="input-group-text">내용</label>
+            <div id={styles.wrapper}>
+                <div id={styles.left}>
+                    <div id={styles.input_group}>
+                        <label id={styles.label}>방제목</label>
+                        
+                        <input id={styles.inputText} type="text"  value={message} onChange={onChange} onKeyDown={onKeyPress} ref={focusRef}/>
+                        
+                        <button id={styles.btnPrimary} type="button" onClick={sendMessage}>보내기</button>
+                        
                     </div>
-                    <input type="text" className="form-control" value={message} onChange={onChange} onKeyDown={onKeyPress} ref={focusRef}/>
-                    <div className="input-group-append">
-                        <button className="btn btn-primary" type="button" onClick={sendMessage}>보내기</button>
+                    
+                    <div id={styles.contentWrapper}>
+                        <ul id={styles.input} className="list-group">
+                            {messageList.map((item,idx)=>{return item.id!=null?(item.inMessage==' 님이 입장하셨습니다'?null:<li id={styles.listWrap} className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}                
+                        </ul>
                     </div>
-                </div>
-                <ul id={styles.input} className="list-group">
-                    {messageList.map((item,idx)=>{return item.id!=null?(item.inMessage==' 님이 입장하셨습니다'?null:<li className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}                
-                </ul>
+                </div>   
+                
+                <div id={styles.right}>
+                    <div id={styles.userList}>
+                        
+                    </div>
 
-                <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
+                    <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
+                </div>
             </div>
-           
-        </>
+                
+                
+       
         
     )
 }
