@@ -186,7 +186,6 @@ function TaxiRoom() {
             axios.get("http://localhost:8080/chat/room/delete/"+e.roomId,{ headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
             window.location.reload();
         }
-        
     }
 
     useEffect(() => {
