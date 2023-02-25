@@ -171,7 +171,7 @@ function TaxiRoom() {
         document.location.href="/"
     }
     const enterRoom=(e)=>{
-        localStorage.setItem('roomId',e.roomId);
+        localStorage.setItem('roomId',e.roomName);
         localStorage.setItem('sender',nick);
         console.log(e.userCount)
         if(e.userCount<=4){

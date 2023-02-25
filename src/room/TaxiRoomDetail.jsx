@@ -1,15 +1,16 @@
-
 import axios from "axios";
-import { useState,useEffect,useRef,useCallback,React } from "react";
+import { useState,useEffect,useRef,useCallback,React,useMemo } from "react";
 import { useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import SockJS from 'sockjs-client'
 import Stomp from "stompjs";
 import styles from './TaxiRoomDetail.module.css'
 import IsLogin from '../utils/isLogin';
+import protobuf from 'protobufjs';
+import pako from 'pako'
+import { debounce } from "lodash";
 
-
-function TaxiRoomDetail(props){
+function TaxiRoomDetail({}){
     const[message,setMessage]=useState('')
     const[roomId,setRoomId]=useState('')
     const[sender,setSender]=useState('')
@@ -20,21 +21,21 @@ function TaxiRoomDetail(props){
 
     const no = useRef(1)
     const focusRef = useRef();
-
-    const onChange = (e)=>{
-        setMessage(e.target.value);
-    }
     
-    const [websocket, setWebsocket] = useState(null);
-const [isConnected, setIsConnected] = useState(false);
+    
+    const onChange = debounce((e) => {
+        e.persist()
+        console.log(e.target.value);
+        setMessage(e.target.value)
+      }, 400);
 
-   
-
-    const sendMessage=()=>{
-        ws.send("/app/chat/message",{},JSON.stringify({type:'TALK',message:message,roomId:roomId,sender:sender}))
+    const inputRef = useRef(null);
+    const sendMessage=(e)=>{
+        ws.send("/app/chat/message",{},(JSON.stringify({type:'T',message:message,roomId:roomId,sender:sender})))
         setMessage('')
-    }
 
+    }
+   
     const get=()=>{
         axios.get("http://localhost:8080/chat/rooms/"+roomId, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
             .then((response)=>{
@@ -120,7 +121,6 @@ const [isConnected, setIsConnected] = useState(false);
     
 
     const connect=()=>{
-        
         ws.connect({},()=>{
                 ws.subscribe("/topic/chat/room/"+roomId,(response)=>{
                     const recv = JSON.parse(response.body);
@@ -144,17 +144,21 @@ const [isConnected, setIsConnected] = useState(false);
    
 
     useEffect(()=>{
+        
         connect()
         created()
         get()
-        focusRef.current.focus();
     },[sender])
+
+
 
     
 
     const onKeyPress =(e)=>{
         if(e.key=="Enter"){
-            sendMessage()
+            sendMessage(e)
+            focusRef.current.blur(); 
+            e.target.value=''
         }
     }
 
@@ -171,11 +175,9 @@ const [isConnected, setIsConnected] = useState(false);
                     <div id={styles.input_group}>
                         <label id={styles.label}>방제목</label>
                         
-                        <input id={styles.inputText} type="text"  value={message} onChange={onChange} onKeyDown={onKeyPress} ref={focusRef}/>
-                        
-                        <button id={styles.btnPrimary} type="button" onClick={()=>(sendMessage())}>보내기</button>
-                        
-                    </div>
+                        <input id={styles.inputText} type="text" placeholder="전송하려면 ENTER를 누르세요" onChange={e => onChange(e)} onKeyDown={e=>onKeyPress(e)} ref={focusRef}></input>
+
+                    </div>  
                     
                     <div id={styles.contentWrapper}>
                         <ul id={styles.input} className="list-group">
