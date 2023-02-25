@@ -157,7 +157,6 @@ function TaxiRoomDetail({}){
     const onKeyPress =(e)=>{
         if(e.key=="Enter"){
             sendMessage(e)
-            focusRef.current.blur(); 
             e.target.value=''
         }
     }
@@ -185,14 +184,9 @@ function TaxiRoomDetail({}){
                         </ul>
                     </div>
                 </div>   
-                
-                <div id={styles.right}>
-                    <div id={styles.userList}>
-                        
-                    </div>
+                <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
 
-                    <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
-                </div>
+                
             </div>
                 
                 

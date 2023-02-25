@@ -1,25 +1,25 @@
-wrapper{
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+#wrapper{
     height: 100%;
     overflow:hidden;
-    position: fixed;
     display: flex;
+    font-family: 'Jua', sans-serif;
+    font-size: 18px;
 }
 
 #left{
-    width: 75%;
+    width: 80%;
     height: 100vh;
-    float: left;
-    margin-left: 5%;
+    margin-left: 10%;
 }
 
-#right{
-    width: 15%;
-    float: left;
-}
 
 #out{
-    margin-left: 50%;
-    color: white;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
 }
 
 #contentWrapper{
@@ -32,13 +32,7 @@ wrapper{
     border: none;
 }
 
-#userList{
-    border: 1px solid lightgray;
-    margin-top: 15%;
-    margin-left: 15%;
-    height: 50vh;
-    background-color: white;
-}
+
 
 #label{
     display: flex;
@@ -53,9 +47,10 @@ wrapper{
 }
 
 #inputText{
-    width: 90%;
+    width: 100%;
     height: 5vh;
-    border: 1px solid lightgray;
+    border: 1px solid gray;
+    border-radius: 5px;
 }
 
 #btnPrimary{
@@ -70,4 +65,9 @@ wrapper{
 
 #input_group{
     display: flex;
+}
+
+#clock{
+    width: 100%;
+    height: 100%;
 }
