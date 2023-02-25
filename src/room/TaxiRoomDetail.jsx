@@ -1,15 +1,16 @@
-
 import axios from "axios";
-import { useState,useEffect,useRef } from "react";
+import { useState,useEffect,useRef,useCallback,React,useMemo } from "react";
 import { useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import SockJS from 'sockjs-client'
 import Stomp from "stompjs";
 import styles from './TaxiRoomDetail.module.css'
 import IsLogin from '../utils/isLogin';
+import protobuf from 'protobufjs';
+import pako from 'pako'
+import { debounce } from "lodash";
 
-
-function TaxiRoomDetail(props){
+function TaxiRoomDetail({}){
     const[message,setMessage]=useState('')
     const[roomId,setRoomId]=useState('')
     const[sender,setSender]=useState('')
@@ -20,16 +21,21 @@ function TaxiRoomDetail(props){
 
     const no = useRef(1)
     const focusRef = useRef();
-
-    const onChange = (e)=>setMessage(e.target.value);
-
     
+    
+    const onChange = debounce((e) => {
+        e.persist()
+        console.log(e.target.value);
+        setMessage(e.target.value)
+      }, 400);
 
-    const sendMessage=()=>{
-        ws.send("/app/chat/message",{},JSON.stringify({type:'TALK',message:message,roomId:roomId,sender:sender}))
+    const inputRef = useRef(null);
+    const sendMessage=(e)=>{
+        ws.send("/app/chat/message",{},(JSON.stringify({type:'T',message:message,roomId:roomId,sender:sender})))
         setMessage('')
-    }
 
+    }
+   
     const get=()=>{
         axios.get("http://localhost:8080/chat/rooms/"+roomId, { headers: { Authorization: `${window.localStorage.getItem('grantType')} ${window.localStorage.getItem('accessToken')}` } })
             .then((response)=>{
@@ -85,7 +91,6 @@ function TaxiRoomDetail(props){
     const created=()=>{
         setRoomId(localStorage.getItem('roomId'));
         setSender(localStorage.getItem('sender'));
-        connect()
     }
 
     
@@ -110,31 +115,49 @@ function TaxiRoomDetail(props){
     
  
     let navigate = useNavigate();
-    let sock = new SockJS("http://localhost:8080/ws/chat");
+    const sock = new SockJS("http://localhost:8080/ws/chat");
     let ws = Stomp.over(sock);
+    var reconnect=0
+    
 
     const connect=()=>{
         ws.connect({},()=>{
-            ws.subscribe("/topic/chat/room/"+roomId,(response)=>{
-                const recv = JSON.parse(response.body);
-                recvMessage(recv);
-                console.log(recv)
-            });
-            ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:roomId, sender:sender}));    
-        }) 
+                ws.subscribe("/topic/chat/room/"+roomId,(response)=>{
+                    const recv = JSON.parse(response.body);
+                    recvMessage(recv);
+                    console.log(recv)
+                    
+                });
+                ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:roomId, sender:sender}));     
+        }, function(error) {
+            if(reconnect++ <= 5) {
+                setTimeout(function() {
+                    console.log("connection reconnect");
+                    sock = new SockJS("/ws/chat");
+                    ws = Stomp.over(sock);
+                    connect();
+                },10*1000);
+            }
+        });
+        
     }
    
+
     useEffect(()=>{
+        
+        connect()
         created()
         get()
-        focusRef.current.focus();
     },[sender])
+
+
 
     
 
     const onKeyPress =(e)=>{
         if(e.key=="Enter"){
-            sendMessage()
+            sendMessage(e)
+            e.target.value=''
         }
     }
 
@@ -151,26 +174,19 @@ function TaxiRoomDetail(props){
                     <div id={styles.input_group}>
                         <label id={styles.label}>방제목</label>
                         
-                        <input id={styles.inputText} type="text"  value={message} onChange={onChange} onKeyDown={onKeyPress} ref={focusRef}/>
-                        
-                        <button id={styles.btnPrimary} type="button" onClick={sendMessage}>보내기</button>
-                        
-                    </div>
+                        <input id={styles.inputText} type="text" placeholder="전송하려면 ENTER를 누르세요" onChange={e => onChange(e)} onKeyDown={e=>onKeyPress(e)} ref={focusRef}></input>
+
+                    </div>  
                     
                     <div id={styles.contentWrapper}>
                         <ul id={styles.input} className="list-group">
-                            {messageList.map((item,idx)=>{return item.id!=null?(item.inMessage==' 님이 입장하셨습니다'?null:<li id={styles.listWrap} className="list-group-item"  key={item.key}>{item.sender}-{item.inMessage}</li>):null})}                
+                            {messageList.map((item,idx)=>{return item.id!=null?(item.inMessage==' 님이 입장하셨습니다'?null:<li id={styles.listWrap} className="list-group-item"  key={item.id}>{item.sender}-{item.inMessage}</li>):null})}                
                         </ul>
                     </div>
                 </div>   
-                
-                <div id={styles.right}>
-                    <div id={styles.userList}>
-                        
-                    </div>
+                <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
 
-                    <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
-                </div>
+                
             </div>
                 
                 
