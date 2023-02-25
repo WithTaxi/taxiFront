@@ -119,6 +119,10 @@ function TaxiRoomDetail({}){
     let ws = Stomp.over(sock);
     var reconnect=0
     
+    const socketClose=()=>{
+        ws.disconnect()
+        console.log("끊어짐")
+    } 
 
     const connect=()=>{
         ws.connect({},()=>{
@@ -184,7 +188,7 @@ function TaxiRoomDetail({}){
                         </ul>
                     </div>
                 </div>   
-                <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
+                <button id={styles.out} className="btn btn-info btn-sm" onClick={() => (navigate(-1),socketClose()) } >채팅방 나가기</button>
 
                 
             </div>
